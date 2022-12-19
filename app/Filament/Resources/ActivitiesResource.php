@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
-use App\Models\User;
+use App\Filament\Resources\ActivitiesResource\Pages;
+use App\Filament\Resources\ActivitiesResource\RelationManagers;
+use App\Models\Activities;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -12,15 +12,12 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Hash;
 
-class UserResource extends Resource
+class ActivitiesResource extends Resource
 {
-    protected static ?string $model = User::class;
+    protected static ?string $model = Activities::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-users';
-
-    protected static ?int $navigationSort = 3;
+    protected static ?string $navigationIcon = 'heroicon-o-collection';
 
     public static function form(Form $form): Form
     {
@@ -30,29 +27,6 @@ class UserResource extends Resource
                     ->label('الاسم')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->label('البريد الالكتروني')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('password')
-                    ->label('كلمة السر')
-                    ->password()
-                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
-                    ->dehydrated(fn ($state) => filled($state))
-                    ->required(fn (string $context): bool => $context === 'create')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('mobile')
-                    ->label('رقم الموبايل')
-                    ->tel()
-                    ->required()
-                    ->maxLength(15),
-                Forms\Components\MultiSelect::make('role')
-                    ->label('الصلاحيات')
-                    ->relationship('roles', 'name')
-                    ->preload()
-                    ->required(),
             ]);
     }
 
@@ -61,11 +35,7 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('الاسم'),
-                Tables\Columns\TextColumn::make('email')
-                    ->label('البريد الالكتروني'),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime(),
+                    ->label('اسم'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('تم انشائها')
                     ->dateTime(),
@@ -73,7 +43,7 @@ class UserResource extends Resource
                     ->label('تم تعديلها')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('deleted_at')
-                    ->label('تم حذفها')
+                    ->label('تم الحذف')
                     ->dateTime(),
             ])
             ->filters([
@@ -101,10 +71,10 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'view' => Pages\ViewUser::route('/{record}'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => Pages\ListActivities::route('/'),
+            'create' => Pages\CreateActivities::route('/create'),
+            'view' => Pages\ViewActivities::route('/{record}'),
+            'edit' => Pages\EditActivities::route('/{record}/edit'),
         ];
     }    
     

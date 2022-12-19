@@ -26,30 +26,34 @@ class VendorResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('business_name')
+                    ->label('اسم المورد')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('mobile')
+                    ->label('رقم الهاتف')
                     ->tel()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('code')
+                    ->label('الكود')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('website')
+                    ->label('البريد الالكتروني')
                     ->url()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('land_phone')
+                    ->label('الرقم الارضي')
                     ->tel()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('code')
-                    ->required()
-                    ->maxLength(255),
                 Forms\Components\Select::make('speciality_id')
+                    ->label('التخصص')
                     ->relationship('VendorSpeciality', 'name')
                     ->required(),
                 Forms\Components\TextInput::make('rating')
+                    ->label('التقييم')
                     ->required()
                     ->numeric()
                     ->maxLength(255),
@@ -61,42 +65,36 @@ class VendorResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('business_name')
-                    ->label('اسم التجارة')
+                    ->label('اسم المورد')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('mobile')
-                    ->label('الرقم')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('mobile')
-                    ->tel()
-                    ->label('الرقم')
+                    ->label('رقم الهاتف')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('code')
-                    ->label('الرقم')
+                    ->label('الكود')
                     ->searchable(),
-                Forms\Components\Select::make('vendor_speciality_id')
-                    ->label('التخصص')
-                    ->relationship('VendorSpeciality', 'name')
-                    ->required(),
+                Tables\Columns\TextColumn::make('speciality_id')
+                    ->label('التخصص'),
                 Tables\Columns\TextColumn::make('land_phone')
-                    ->tel()
                     ->label('الرقم الارضي')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('website')
-                    ->url()
-                    ->label('الموقع')
+                    ->label('الموقع الالكتروني')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('rating')
-                    ->numeric()
                     ->label('التقييم')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('تم انشائها')
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('تم تعديلها')
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('deleted_at')
+                    ->label('تم حذفها')
                     ->dateTime(),
             ])
             ->filters([

@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ContractResource\Pages;
-use App\Filament\Resources\ContractResource\RelationManagers;
-use App\Models\Contract;
+use App\Filament\Resources\SectorResource\Pages;
+use App\Filament\Resources\SectorResource\RelationManagers;
+use App\Models\Sector;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -13,28 +13,24 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ContractResource extends Resource
+class SectorResource extends Resource
 {
-    protected static ?string $model = Contract::class;
+    protected static ?string $model = Sector::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
-
-    protected static ?int $navigationSort = 1;
+    protected static ?string $navigationIcon = 'heroicon-o-collection';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('code')
-                    ->label('الكود')
+                Forms\Components\TextInput::make('name')
+                    ->label('الاسم')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('vendor_id')
-                    ->label('المورد')
-                    ->relationship('vendor','business_name'),
-                Forms\Components\FileUpload::make('pdf')
-                    ->label('الملف')
-                    ->directory('ContractResource/pdf'),
+                Forms\Components\Select::make('area_id')
+                    ->label('المنطقة')
+                    ->relationship('area','name')
+                    ->required(),
             ]);
     }
 
@@ -42,15 +38,18 @@ class ContractResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('code')
-                    ->label('الكود'),
-                Tables\Columns\TextColumn::make('vendor_id')
-                    ->label('المورد'),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('الاسم'),
+                Tables\Columns\TextColumn::make('area_id')
+                    ->label('المنطقة'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('تم انشاءها')
+                    ->label('تم الانشاء')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('تم تعديلها')
+                    ->label('تم التعديل')
+                    ->dateTime(),
+                Tables\Columns\TextColumn::make('deleted_at')
+                    ->label('تم الحذف')
                     ->dateTime(),
             ])
             ->filters([
@@ -77,10 +76,10 @@ class ContractResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListContracts::route('/'),
-            'create' => Pages\CreateContract::route('/create'),
-            'view' => Pages\ViewContract::route('/{record}'),
-            'edit' => Pages\EditContract::route('/{record}/edit'),
+            'index' => Pages\ListSectors::route('/'),
+            'create' => Pages\CreateSector::route('/create'),
+            'view' => Pages\ViewSector::route('/{record}'),
+            'edit' => Pages\EditSector::route('/{record}/edit'),
         ];
     }    
     

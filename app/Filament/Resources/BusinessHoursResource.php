@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ContractResource\Pages;
-use App\Filament\Resources\ContractResource\RelationManagers;
-use App\Models\Contract;
+use App\Filament\Resources\BusinessHoursResource\Pages;
+use App\Filament\Resources\BusinessHoursResource\RelationManagers;
+use App\Models\BusinessHours;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -13,28 +13,28 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ContractResource extends Resource
+class BusinessHoursResource extends Resource
 {
-    protected static ?string $model = Contract::class;
+    protected static ?string $model = BusinessHours::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
-
-    protected static ?int $navigationSort = 1;
+    protected static ?string $navigationIcon = 'heroicon-o-collection';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('code')
-                    ->label('الكود')
+                Forms\Components\TextInput::make('day')
+                    ->label('اليوم')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('vendor_id')
-                    ->label('المورد')
-                    ->relationship('vendor','business_name'),
-                Forms\Components\FileUpload::make('pdf')
-                    ->label('الملف')
-                    ->directory('ContractResource/pdf'),
+                Forms\Components\TextInput::make('starts_at')
+                    ->label('يبدأ في')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('ends_at')
+                    ->label('ينتهي في')
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
@@ -42,15 +42,17 @@ class ContractResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('code')
-                    ->label('الكود'),
-                Tables\Columns\TextColumn::make('vendor_id')
-                    ->label('المورد'),
+                Tables\Columns\TextColumn::make('day')
+                    ->label('اليوم'),
+                Tables\Columns\TextColumn::make('starts_at')
+                    ->label('يبدأ في'),
+                Tables\Columns\TextColumn::make('ends_at')
+                    ->label('ينتهي في'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('تم انشاءها')
+                    ->label('تم الانشاء')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('تم تعديلها')
+                    ->label('تم التعديل')
                     ->dateTime(),
             ])
             ->filters([
@@ -59,6 +61,7 @@ class ContractResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -77,10 +80,10 @@ class ContractResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListContracts::route('/'),
-            'create' => Pages\CreateContract::route('/create'),
-            'view' => Pages\ViewContract::route('/{record}'),
-            'edit' => Pages\EditContract::route('/{record}/edit'),
+            'index' => Pages\ListBusinessHours::route('/'),
+            'create' => Pages\CreateBusinessHours::route('/create'),
+            'view' => Pages\ViewBusinessHours::route('/{record}'),
+            'edit' => Pages\EditBusinessHours::route('/{record}/edit'),
         ];
     }    
     

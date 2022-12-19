@@ -24,6 +24,7 @@ class VendorSpecialityResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('الاسم')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -33,10 +34,16 @@ class VendorSpecialityResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('اسم'),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('تم انشائها')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('تم تعديلها')
+                    ->dateTime(),
+                Tables\Columns\TextColumn::make('deleted_at')
+                    ->label('تم حذفها')
                     ->dateTime(),
             ])
             ->filters([

@@ -27,13 +27,10 @@ class CategoryResource extends Resource
                     ->label('الاسم')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('icon')
-                    ->label('الصورة')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('slug')
-                    ->label('الكود')
+                Forms\Components\FileUpload::make('icon')
+                    ->directory('CategoryResource/icon')
                     ->required()
-                    ->maxLength(255),
+                    ->label('الكود'),
                 Forms\Components\Select::make('parent_id')
                     ->label('الفئة الاب')
                     ->relationship('category','name'),
@@ -49,10 +46,15 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('icon'),
-                Tables\Columns\TextColumn::make('slug'),
-                Tables\Columns\TextColumn::make('parent_id'),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('الاسم'),
+                Tables\Columns\ImageColumn::make('icon')
+                    ->label('الصورة')
+                    ->square(),
+                Tables\Columns\TextColumn::make('slug')
+                    ->label('الكود'),
+                Tables\Columns\TextColumn::make('parent_id')
+                    ->label('الفئة الاب'),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('created_at')

@@ -63,16 +63,6 @@ class ProductResource extends Resource
                         'out_of_stock' => 'out of stock',
                     ])
                     ->default('in_stock'),
-                Forms\Components\Select::make('type')
-                    ->options([
-                        'lab' => 'lab',
-                        'pharmacy' => 'pharmacy',
-                        'dentist' => 'dentist',
-                    ])
-                    ->default('lab'),
-                Forms\Components\Select::make('top_category_id')
-                    ->relationship('top_category', 'name')
-                    ->required(),
                 Forms\Components\Select::make('vendor_id')
                     ->relationship('vendor', 'name')
                     ->required(),
@@ -121,9 +111,6 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('country_of_origin')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('TopCategory.name')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('vendor.name')

@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ContractResource\Pages;
-use App\Filament\Resources\ContractResource\RelationManagers;
-use App\Models\Contract;
+use App\Filament\Resources\CustomerSpecialityResource\Pages;
+use App\Filament\Resources\CustomerSpecialityResource\RelationManagers;
+use App\Models\CustomerSpeciality;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -13,28 +13,20 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ContractResource extends Resource
+class CustomerSpecialityResource extends Resource
 {
-    protected static ?string $model = Contract::class;
+    protected static ?string $model = CustomerSpeciality::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
-
-    protected static ?int $navigationSort = 1;
+    protected static ?string $navigationIcon = 'heroicon-o-collection';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('code')
-                    ->label('الكود')
+                Forms\Components\TextInput::make('name')
+                    ->label('الاسم')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('vendor_id')
-                    ->label('المورد')
-                    ->relationship('vendor','business_name'),
-                Forms\Components\FileUpload::make('pdf')
-                    ->label('الملف')
-                    ->directory('ContractResource/pdf'),
             ]);
     }
 
@@ -42,21 +34,23 @@ class ContractResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('code')
-                    ->label('الكود'),
-                Tables\Columns\TextColumn::make('vendor_id')
-                    ->label('المورد'),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('اسم'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('تم انشاءها')
+                    ->label('تم انشائها')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('تم تعديلها')
+                    ->dateTime(),
+                Tables\Columns\TextColumn::make('deleted_at')
+                    ->label('تم الحذف')
                     ->dateTime(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
@@ -77,10 +71,10 @@ class ContractResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListContracts::route('/'),
-            'create' => Pages\CreateContract::route('/create'),
-            'view' => Pages\ViewContract::route('/{record}'),
-            'edit' => Pages\EditContract::route('/{record}/edit'),
+            'index' => Pages\ListCustomerSpecialities::route('/'),
+            'create' => Pages\CreateCustomerSpeciality::route('/create'),
+            'view' => Pages\ViewCustomerSpeciality::route('/{record}'),
+            'edit' => Pages\EditCustomerSpeciality::route('/{record}/edit'),
         ];
     }    
     
