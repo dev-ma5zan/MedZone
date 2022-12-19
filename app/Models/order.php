@@ -14,10 +14,9 @@ class order extends Model
 
     protected $fillable = [
         'status',
-        'full_price',
+        'code',
         'customer_id',
-        'vendor_id',
-        'type',
+        'user_id',
     ];
 
     public function customer()
@@ -25,11 +24,10 @@ class order extends Model
         return $this->belongsTo(customer::class);
     }
 
-    public function vendor()
+    public function user()
     {
-        return $this->belongsTo(vendor::class);
+        return $this->belongsTo(user::class);
     }
-
 
     public function product()
     {

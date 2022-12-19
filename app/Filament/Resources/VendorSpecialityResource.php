@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
-use App\Models\Category;
+use App\Filament\Resources\VendorSpecialityResource\Pages;
+use App\Filament\Resources\VendorSpecialityResource\RelationManagers;
+use App\Models\VendorSpeciality;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class CategoryResource extends Resource
+class VendorSpecialityResource extends Resource
 {
-    protected static ?string $model = Category::class;
+    protected static ?string $model = VendorSpeciality::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
@@ -24,24 +24,8 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('الاسم')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('icon')
-                    ->label('الصورة')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('slug')
-                    ->label('الكود')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('parent_id')
-                    ->label('الفئة الاب')
-                    ->relationship('category','name'),
-                Forms\Components\Toggle::make('visability')
-                    ->label('ظاهرة')
-                    ->inline(false)
-                    ->onColor('success')
-                    ->offColor('danger'),
             ]);
     }
 
@@ -50,11 +34,6 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('icon'),
-                Tables\Columns\TextColumn::make('slug'),
-                Tables\Columns\TextColumn::make('parent_id'),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
@@ -64,9 +43,9 @@ class CategoryResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -85,10 +64,18 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
-            'create' => Pages\CreateCategory::route('/create'),
-            'view' => Pages\ViewCategory::route('/{record}'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'index' => Pages\ListVendorSpecialities::route('/'),
+            'create' => Pages\CreateVendorSpeciality::route('/create'),
+            'view' => Pages\ViewVendorSpeciality::route('/{record}'),
+            'edit' => Pages\EditVendorSpeciality::route('/{record}/edit'),
         ];
     }    
+    
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
+    }
 }

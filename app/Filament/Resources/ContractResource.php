@@ -25,24 +25,16 @@ class ContractResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label('الاسم')
+                Forms\Components\TextInput::make('code')
+                    ->label('الكود')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('price')
-                    ->label('السعر')
-                    ->required(),
-                Forms\Components\TextInput::make('status')
-                    ->label('الحالة')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('offers_and_notes')
-                    ->label('العروض و الملاحظات')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DateTimePicker::make('expires_at')
-                    ->label('تنتهي في ')
-                    ->required(),
+                Forms\Components\Select::make('vendor_id')
+                    ->label('المورد')
+                    ->relationship('vendor','name'),
+                Forms\Components\FileUpload::make('pdf')
+                    ->label('الملف')
+                    ->directory('ContractResource/pdf'),
             ]);
     }
 

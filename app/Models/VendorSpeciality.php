@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class category extends Model
+class VendorSpeciality extends Model
 {
     use HasFactory;
 
@@ -14,14 +14,5 @@ class category extends Model
 
     protected $fillable = [
         'name',
-        'icon',
-        'slug',
-        'parent_id',
-        'visability',
     ];
-
-    public function category()
-    {
-        return $this->belongsTo(category::class);
-    }
 }

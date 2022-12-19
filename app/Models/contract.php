@@ -13,15 +13,13 @@ class contract extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name',
-        'price',
-        'status',
-        'offers_and_notes',
-        'expires_at',
+        'code',
+        'vendor_id',
+        'document',
     ];
 
-    public function product()
+    public function vendor()
     {
-        return $this->hasMany(product::class);
+        return $this->belongsTo(vendor::class);
     }
 }

@@ -27,20 +27,29 @@ class UserResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('الاسم')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
+                    ->label('البريد الالكتروني')
                     ->email()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('password')
+                    ->label('كلمة السر')
                     ->password()
                     ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                     ->dehydrated(fn ($state) => filled($state))
                     ->required(fn (string $context): bool => $context === 'create')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('mobile')
+                    ->label('رقم الموبايل')
+                    ->tel()
+                    ->required()
+                    ->maxLength(15),
                 Forms\Components\MultiSelect::make('role')
+                    ->label('الصلاحيات')
                     ->relationship('roles', 'name')
                     ->preload()
                     ->required(),

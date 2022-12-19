@@ -13,11 +13,13 @@ class vendor extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name',
-        'email',
-        'phone',
-        'contact_name',
-        'location',
+        'business_name',
+        'mobile',
+        'code',
+        'speciality_id',
+        'land_phone',
+        'website',
+        'rating',
     ];
 
     public function product()
@@ -28,5 +30,10 @@ class vendor extends Model
     public function order()
     {
         return $this->hasMany(order::class);
+    }
+
+    public function VendorSpeciality()
+    {
+        return $this->belongsTo(VendorSpeciality::class);
     }
 }

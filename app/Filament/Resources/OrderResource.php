@@ -34,23 +34,18 @@ class OrderResource extends Resource
                     ])
                     ->default('processing')
                     ->required(),
-                Forms\Components\TextInput::make('full_price')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\TextInput::make('code')
+                    ->label('الكود')
+                    ->required(),
                 Forms\Components\Select::make('customer_id')
+                    ->label('الزبون')
                     ->relationship('customer', 'name')
                     ->required(),
-                Forms\Components\Select::make('vendor_id')
-                    ->relationship('vendor', 'name')
-                    ->required(),
-                Forms\Components\Select::make('type')
-                    ->options([
-                        'lab' => 'lab',
-                        'pharmacy' => 'pharmacy',
-                        'dentist' => 'dentist',
-                    ])
-                    ->default('lab'),
+                Forms\Components\Select::make('user_id')
+                    ->label('الموظف المسؤول')
+                    ->relationship('user', 'name'),
                 Forms\Components\MultiSelect::make('product')
+                    ->label('المنتجات')
                     ->relationship('product', 'name')
                     ->preload()
                     ->required(),
