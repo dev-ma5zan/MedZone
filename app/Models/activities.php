@@ -15,4 +15,9 @@ class activities extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(customer::class);
+    }
 }

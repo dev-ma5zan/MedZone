@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AreaResource\Pages;
-use App\Filament\Resources\AreaResource\RelationManagers;
-use App\Models\Area;
+use App\Filament\Resources\DecorResource\Pages;
+use App\Filament\Resources\DecorResource\RelationManagers;
+use App\Models\Decor;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class AreaResource extends Resource
+class DecorResource extends Resource
 {
-    protected static ?string $model = Area::class;
+    protected static ?string $model = Decor::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
@@ -27,6 +27,10 @@ class AreaResource extends Resource
                     ->label('الاسم')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Select::make('customer_id')
+                    ->label('الزبون')
+                    ->relationship('customer','name')
+                    ->required(),
             ]);
     }
 
@@ -36,6 +40,8 @@ class AreaResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('الاسم'),
+                Tables\Columns\TextColumn::make('customer_id')
+                    ->label('الزبون'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('تم الانشاء')
                     ->dateTime(),
@@ -51,8 +57,8 @@ class AreaResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -71,10 +77,10 @@ class AreaResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAreas::route('/'),
-            'create' => Pages\CreateArea::route('/create'),
-            'view' => Pages\ViewArea::route('/{record}'),
-            'edit' => Pages\EditArea::route('/{record}/edit'),
+            'index' => Pages\ListDecors::route('/'),
+            'create' => Pages\CreateDecor::route('/create'),
+            'view' => Pages\ViewDecor::route('/{record}'),
+            'edit' => Pages\EditDecor::route('/{record}/edit'),
         ];
     }    
     

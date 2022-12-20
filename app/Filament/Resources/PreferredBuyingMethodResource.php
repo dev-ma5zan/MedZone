@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AreaResource\Pages;
-use App\Filament\Resources\AreaResource\RelationManagers;
-use App\Models\Area;
+use App\Filament\Resources\PreferredBuyingMethodResource\Pages;
+use App\Filament\Resources\PreferredBuyingMethodResource\RelationManagers;
+use App\Models\PreferredBuyingMethod;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class AreaResource extends Resource
+class PreferredBuyingMethodResource extends Resource
 {
-    protected static ?string $model = Area::class;
+    protected static ?string $model = PreferredBuyingMethod::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
@@ -51,8 +51,8 @@ class AreaResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -71,10 +71,10 @@ class AreaResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAreas::route('/'),
-            'create' => Pages\CreateArea::route('/create'),
-            'view' => Pages\ViewArea::route('/{record}'),
-            'edit' => Pages\EditArea::route('/{record}/edit'),
+            'index' => Pages\ListPreferredBuyingMethods::route('/'),
+            'create' => Pages\CreatePreferredBuyingMethod::route('/create'),
+            'view' => Pages\ViewPreferredBuyingMethod::route('/{record}'),
+            'edit' => Pages\EditPreferredBuyingMethod::route('/{record}/edit'),
         ];
     }    
     

@@ -6,16 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class BusinessHours extends Model
+class PreferredBuyingMethod extends Model
 {
     use HasFactory;
 
     use SoftDeletes;
 
     protected $fillable = [
-        'day',
-        'starts_at',
-        'ends_at',
+        'name',
     ];
 
     public function customer()

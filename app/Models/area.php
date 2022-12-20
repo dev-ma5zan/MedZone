@@ -20,4 +20,9 @@ class area extends Model
     {
         return $this->hasMany(sector::class);
     }
+
+    public function customer()
+    {
+        return $this->belongsTo(customer::class);
+    }
 }

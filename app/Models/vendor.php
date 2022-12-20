@@ -36,4 +36,9 @@ class vendor extends Model
     {
         return $this->belongsTo(VendorSpeciality::class);
     }
+    //change relationship to manytomany
+    public function customer()
+    {
+        return $this->belongsTo(customer::class);
+    }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AreaResource\Pages;
-use App\Filament\Resources\AreaResource\RelationManagers;
-use App\Models\Area;
+use App\Filament\Resources\InsuranceResource\Pages;
+use App\Filament\Resources\InsuranceResource\RelationManagers;
+use App\Models\Insurance;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class AreaResource extends Resource
+class InsuranceResource extends Resource
 {
-    protected static ?string $model = Area::class;
+    protected static ?string $model = Insurance::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
@@ -24,9 +24,12 @@ class AreaResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('الاسم')
+                    ->label('لاسم')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('customer_id')
+                    ->label('اسم المركز')
+                    ->required(),
             ]);
     }
 
@@ -36,6 +39,8 @@ class AreaResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('الاسم'),
+                Tables\Columns\TextColumn::make('customer_id')
+                    ->label('اسم المركز'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('تم الانشاء')
                     ->dateTime(),
@@ -51,8 +56,8 @@ class AreaResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -71,10 +76,10 @@ class AreaResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAreas::route('/'),
-            'create' => Pages\CreateArea::route('/create'),
-            'view' => Pages\ViewArea::route('/{record}'),
-            'edit' => Pages\EditArea::route('/{record}/edit'),
+            'index' => Pages\ListInsurances::route('/'),
+            'create' => Pages\CreateInsurance::route('/create'),
+            'view' => Pages\ViewInsurance::route('/{record}'),
+            'edit' => Pages\EditInsurance::route('/{record}/edit'),
         ];
     }    
     

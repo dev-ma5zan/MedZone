@@ -73,7 +73,7 @@ class UserResource extends Resource
                     ->label('تم تعديلها')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('deleted_at')
-                    ->label('تم حذفها')
+                    ->label('تم الحذف')
                     ->dateTime(),
             ])
             ->filters([
