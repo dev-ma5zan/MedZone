@@ -6,19 +6,26 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CustomerSpeciality extends Model
+class review extends Model
 {
     use HasFactory;
 
     use SoftDeletes;
 
     protected $fillable = [
-        'name',
-        'weight',
+        'customer_id',
+        'product_id',
+        'notes',
+        'rating',
     ];
 
     public function customer()
     {
-        return $this->hasMany(customer::class);
+        return $this->belongsTo(customer::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(product::class);
     }
 }

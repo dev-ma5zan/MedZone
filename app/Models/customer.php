@@ -49,63 +49,68 @@ class customer extends Model
         return $this->hasMany(order::class);
     }
 
+    public function review()
+    {
+        return $this->hasMany(review::class);
+    }
+
     public function CustomerSpeciality()
     {
-        return $this->hasMany(CustomerSpeciality::class);
+        return $this->belongsTo(CustomerSpeciality::class);
     }
 
     public function activities()
     {
-        return $this->hasMany(activities::class);
+        return $this->belongsTo(activities::class);
     }
 
     public function area()
     {
-        return $this->hasMany(area::class);
+        return $this->belongsTo(area::class);
     }
 
     public function BusinessHours()
     {
-        return $this->hasMany(BusinessHours::class);
+        return $this->belongsTo(BusinessHours::class);
     }
 
     public function vendor()
     {
-        return $this->hasMany(vendor::class);
+        return $this->belongsTo(vendor::class);
     }
 
     public function PreferredBuyingMethod()
     {
-        return $this->hasMany(PreferredBuyingMethod::class);
+        return $this->belongsTo(PreferredBuyingMethod::class);
     }
 
     public function insurance()
     {
-        return $this->hasMany(insurance::class);
+        return $this->belongsTo(insurance::class);
     }
 
     public function LocationType()
     {
-        return $this->hasMany(LocationType::class);
+        return $this->belongsTo(LocationType::class);
     }
 
     public function staff()
     {
-        return $this->hasMany(staff::class);
+        return $this->belongsTo(staff::class);
     }
 
     public function size()
     {
-        return $this->hasMany(size::class);
+        return $this->belongsTo(size::class);
     }
 
     public function decor()
     {
-        return $this->hasMany(decor::class);
+        return $this->belongsTo(decor::class);
     }
 
     public function power()
     {
-        return $this->hasMany(power::class);
+        return $this->belongsTo(power::class);
     }
 }

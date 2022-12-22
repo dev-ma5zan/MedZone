@@ -48,7 +48,6 @@ class CustomerResource extends Resource
                     ->label('الملفات')
                     ->required()
                     ->maxLength(255),
-                /* relationship problem
                 Forms\Components\Select::make('customer_speciality_id')
                     ->relationship('CustomerSpeciality','name')
                     ->label('التخصص')
@@ -68,7 +67,7 @@ class CustomerResource extends Resource
                 Forms\Components\Select::make('vendor_id')
                     ->label('المورد المعتاد')
                     ->required()
-                    ->relationship('vendor','name'),
+                    ->relationship('vendor','business_name'),
                 Forms\Components\Select::make('preferred_buying_method_id')
                     ->label('طرية الدفع المفضلة')
                     ->required()
@@ -97,7 +96,6 @@ class CustomerResource extends Resource
                     ->label('الطاقة')
                     ->required()
                     ->relationship('power','name'),
-                 */
                 Forms\Components\TextInput::make('behavior')
                     ->label('التعامل')
                     ->required()

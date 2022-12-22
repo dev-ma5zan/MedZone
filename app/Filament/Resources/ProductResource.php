@@ -25,58 +25,65 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('code')
+                    ->label('الكود')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('code')
+                Forms\Components\TextInput::make('category_id')
                     ->required()
+                    ->label('الفئة')
                     ->numeric()
                     ->maxLength(4),
-                Forms\Components\Textarea::make('english_desc')
+                Forms\Components\Textarea::make('tags')
                     ->required()
+                    ->label('التاجز')
                     ->maxLength(255),
-                Forms\Components\Textarea::make('arabic_desc')
+                Forms\Components\Textarea::make('availability')
                     ->required()
+                    ->label('متاح')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('quantity')
+                Forms\Components\TextInput::make('visability')
                     ->required()
+                    ->label('ظاهر')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('product_line')
+                Forms\Components\TextInput::make('featured')
                     ->required()
+                    ->label('متميز')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('price')
+                Forms\Components\TextInput::make('properties')
                     ->required()
+                    ->label('الخصائص')
                     ->numeric()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('brand_name')
+                Forms\Components\TextInput::make('serial_number')
                     ->required()
+                    ->label('الرقم المتسلسل')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('manufacturer')
+                Forms\Components\TextInput::make('featured_cover_image')
                     ->required()
+                    ->label('صورة الغلاف')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('country_of_origin')
+                Forms\Components\TextInput::make('description')
                     ->required()
+                    ->label('الوصف')
                     ->maxLength(255),
-                Forms\Components\Select::make('status')
-                    ->options([
-                        'in_stock' => 'in stock',
-                        'out_of_stock' => 'out of stock',
-                    ])
-                    ->default('in_stock'),
+                Forms\Components\TextInput::make('prices')
+                    ->required()
+                    ->label('السعر')
+                    ->maxLength(255),
+                Forms\Components\FileUpload::make('images')
+                    ->directory('ProductResource/image')
+                    ->label('الصور'),
                 Forms\Components\Select::make('vendor_id')
-                    ->relationship('vendor', 'name')
-                    ->required(),
-                Forms\Components\Select::make('contract_id')
-                    ->relationship('contract', 'name')
-                    ->required(),
-                Forms\Components\FileUpload::make('image')
-                    ->directory('ProductResource/image'),
-                Forms\Components\FileUpload::make('manufacturer_logo')
-                    ->directory('ProductResource/logos'),
-                Forms\Components\FileUpload::make('pdf')
-                    ->directory('ProductResource/pdf'),
-                Forms\Components\TextInput::make('url')
-                    ->url(),
+                    ->relationship('vendor', 'business_name')
+                    ->required()
+                    ->label('المورد'),
+                Forms\Components\FileUpload::make('documents')
+                    ->directory('ProductResource/documents')
+                    ->label('الملفات'),
+                Forms\Components\TextInput::make('links')
+                    ->url()
+                    ->label('الروابط'),
             ]);
     }
 
@@ -84,46 +91,73 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->sortable()
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('code')
                     ->sortable()
+                    ->label('كود')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('arabic_desc'),
-                Tables\Columns\TextColumn::make('english_desc'),
-                Tables\Columns\TextColumn::make('quantity'),
-                Tables\Columns\TextColumn::make('product_line')
+                Tables\Columns\TextColumn::make('description')
+                    ->label('الوصف'),
+                Tables\Columns\TextColumn::make('category_id')
+                    ->label('لبفئة'),
+                Tables\Columns\TextColumn::make('tags')
                     ->sortable()
+                    ->label('التاغز')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('price')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('brand_name')
+                Tables\Columns\TextColumn::make('availability')
                     ->sortable()
+                    ->label('متاح'),
+                Tables\Columns\TextColumn::make('visability')
+                    ->sortable()
+                    ->label('ظاهر')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('manufacturer')
+                Tables\Columns\TextColumn::make('featured')
                     ->searchable()
+                    ->label('متميز')
                     ->sortable(),
-                Tables\Columns\ImageColumn::make('manufacturer_logo')
-                    ->square(),
-                Tables\Columns\ImageColumn::make('image')
-                    ->square(),
-                Tables\Columns\TextColumn::make('status')
+                Tables\Columns\TextColumn::make('vendor_id')
+                    ->searchable()
+                    ->label('المورد')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('country_of_origin')
+                Tables\Columns\TextColumn::make('serial_number')
+                    ->searchable()
+                    ->label('الرقم التسلسلي')
+                    ->sortable(),
+                Tables\Columns\ImageColumn::make('images')
+                    ->square()
+                    ->label('الصور'),
+                Tables\Columns\ImageColumn::make('featured_cover_image')
+                    ->square()
+                    ->label('صورة الغلاف'),
+                Tables\Columns\TextColumn::make('description')
                     ->sortable()
+                    ->label('الوصف'),
+                Tables\Columns\TextColumn::make('documents')
+                    ->sortable()
+                    ->label('الملفات')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('vendor.name')
+                Tables\Columns\TextColumn::make('links')
                     ->sortable()
+                    ->label('الروابط')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('properties')
+                    ->sortable()
+                    ->label('الخصائص')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('prices')
+                    ->sortable()
+                    ->label('السعر')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
+                    ->label('تم الانشاء')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
+                    ->label('تم التعديل')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
+                    ->label('تم الحذف')
                     ->sortable(),
             ])
             ->filters([

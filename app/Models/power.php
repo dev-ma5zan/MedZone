@@ -19,6 +19,6 @@ class power extends Model
 
     public function customer()
     {
-        return $this->belongsTo(customer::class);
+        return $this->hasMany(customer::class);
     }
 }

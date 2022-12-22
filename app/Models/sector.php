@@ -19,7 +19,7 @@ class sector extends Model
 
     public function area()
     {
-        return $this->belongsTo(area::class);
+        return $this->hasMany(area::class);
     }
 
     public function SubAddress()

@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CustomerSpecialityResource\Pages;
-use App\Filament\Resources\CustomerSpecialityResource\RelationManagers;
-use App\Models\CustomerSpeciality;
+use App\Filament\Resources\ReviewResource\Pages;
+use App\Filament\Resources\ReviewResource\RelationManagers;
+use App\Models\Review;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -12,11 +12,10 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\TextInput;
 
-class CustomerSpecialityResource extends Resource
+class ReviewResource extends Resource
 {
-    protected static ?string $model = CustomerSpeciality::class;
+    protected static ?string $model = Review::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
@@ -24,14 +23,19 @@ class CustomerSpecialityResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label('الاسم')
+                Forms\Components\Select::make('customer_id')
+                    ->relationship('customer','full_name')
+                    ->label('الزبون'),
+                Forms\Components\Select::make('product_id')
+                    ->relationship('product','name')
+                    ->label('المنتج'),
+                Forms\Components\TextInput::make('notes')
                     ->required()
+                    ->label('الملاحظات')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('weight')
-                    ->label('الوزن')
+                Forms\Components\TextInput::make('rating')
                     ->required()
-                    ->default('1.0')
+                    ->label('التقييم')
                     ->maxLength(255),
             ]);
     }
@@ -40,13 +44,19 @@ class CustomerSpecialityResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->label('اسم'),
+                Tables\Columns\TextColumn::make('customer_id')
+                    ->label('الزبون'),
+                Tables\Columns\TextColumn::make('product_id')
+                    ->label('المنتج'),
+                Tables\Columns\TextColumn::make('rating')
+                    ->label('التقييم'),
+                Tables\Columns\TextColumn::make('notes')
+                    ->label('الملاحظات'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('تم انشائها')
+                    ->label('تم الانشاء')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('تم تعديلها')
+                    ->label('تم التعديل')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->label('تم الحذف')
@@ -56,9 +66,9 @@ class CustomerSpecialityResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -77,10 +87,10 @@ class CustomerSpecialityResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCustomerSpecialities::route('/'),
-            'create' => Pages\CreateCustomerSpeciality::route('/create'),
-            'view' => Pages\ViewCustomerSpeciality::route('/{record}'),
-            'edit' => Pages\EditCustomerSpeciality::route('/{record}/edit'),
+            'index' => Pages\ListReviews::route('/'),
+            'create' => Pages\CreateReview::route('/create'),
+            'view' => Pages\ViewReview::route('/{record}'),
+            'edit' => Pages\EditReview::route('/{record}/edit'),
         ];
     }    
     

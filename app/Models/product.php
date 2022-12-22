@@ -13,25 +13,21 @@ class product extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name',
-        'image',
         'code',
-        'status',
-        'price',
-        'top_category_id',
+        'category_id',
+        'tags',
+        'availability',
+        'visability',
+        'featured',
         'vendor_id',
-        'contract_id',
-        'type',
-        'arabic_desc',
-        'english_desc',
-        'country_of_origin',
-        'product_line',
-        'brand_name',
-        'pdf',
-        'url',
-        'quantity',
-        'manufacturer',
-        'manufacturer_logo',
+        'serial_number',
+        'featured_cover_image',
+        'images',
+        'description',
+        'documents',
+        'links',
+        'properties',
+        'prices',
     ];
 
     public function TopCategory()
@@ -42,6 +38,11 @@ class product extends Model
     public function vendor()
     {
         return $this->belongsTo(vendor::class);
+    }
+
+    public function review()
+    {
+        return $this->hasMany(review::class);
     }
 
     public function contract()
