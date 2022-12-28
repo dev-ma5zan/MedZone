@@ -15,10 +15,16 @@ class street extends Model
     protected $fillable = [
         'name',
         'sub_address_id',
+        'weight',
     ];
 
     public function SubAddress()
     {
         return $this->belongsTo(SubAddress::class);
+    }
+
+    public function customer()
+    {
+        return $this->hasMany(customer::class);
     }
 }

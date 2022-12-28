@@ -16,12 +16,17 @@ class category extends Model
         'name',
         'icon',
         'slug',
-        'parent_id',
+        'category_id',
         'visability',
     ];
 
     public function category()
     {
         return $this->belongsTo(category::class);
+    }
+
+    public function product()
+    {
+        return $this->hasMany(product::class);
     }
 }

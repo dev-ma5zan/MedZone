@@ -15,7 +15,11 @@ class contract extends Model
     protected $fillable = [
         'code',
         'vendor_id',
-        'document',
+        'documents',
+    ];
+
+    protected $casts = [
+        'documents' => 'json',
     ];
 
     public function vendor()

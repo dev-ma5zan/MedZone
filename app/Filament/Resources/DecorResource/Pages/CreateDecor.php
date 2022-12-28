@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateDecor extends CreateRecord
 {
     protected static string $resource = DecorResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateSubAddress extends CreateRecord
 {
     protected static string $resource = SubAddressResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

@@ -19,22 +19,42 @@ class ContractResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
+    protected static ?string $label = 'عقد';
+
+    protected static ?string $pluralLabel = 'العقود';
+
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('code')
-                    ->label('الكود')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('vendor_id')
-                    ->label('المورد')
-                    ->relationship('vendor','business_name'),
-                Forms\Components\FileUpload::make('pdf')
-                    ->label('الملف')
-                    ->directory('ContractResource/pdf'),
+                Forms\Components\Card::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('code')
+                            ->label('الكود')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Select::make('vendor_id')
+                            ->label('المورد')
+                            ->relationship('vendor','business_name'),
+                        Forms\Components\Repeater::make('documents')
+                            ->schema([
+                                Forms\Components\FileUpload::make('document')
+                                    ->label('الملف')
+                                    ->directory('ContractResource/Documents'),
+                            ])
+                            ->columns(1)->columnSpan(2)->required(),
+                    ])->columns(2)->columnSpan(1),
+                    Forms\Components\Card::make()
+                    ->schema([
+                        Forms\Components\Placeholder::make('created_at')
+                            ->label('تم الانشاء')
+                            ->content(fn (?contract $record): string => $record ? $record->created_at->diffForHumans() : '-'),
+                        Forms\Components\Placeholder::make('updated_at')
+                            ->label('تم التعديل')
+                            ->content(fn (?contract $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
+                    ])->columnSpan(1)->hidden(fn (?contract $record) => $record == null),
             ]);
     }
 
@@ -44,13 +64,16 @@ class ContractResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('code')
                     ->label('الكود'),
-                Tables\Columns\TextColumn::make('vendor_id')
+                Tables\Columns\TextColumn::make('vendor.name')
                     ->label('المورد'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('تم انشاءها')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('تم تعديلها')
+                    ->dateTime(),
+                Tables\Columns\TextColumn::make('deleted_at')
+                    ->label('تم الحذف')
                     ->dateTime(),
             ])
             ->filters([

@@ -15,11 +15,17 @@ class sector extends Model
     protected $fillable = [
         'name',
         'area_id',
+        'weight',
     ];
 
     public function area()
     {
-        return $this->hasMany(area::class);
+        return $this->belongsTo(area::class);
+    }
+
+    public function customer()
+    {
+        return $this->hasMany(customer::class);
     }
 
     public function SubAddress()

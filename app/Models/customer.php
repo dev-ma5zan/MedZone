@@ -28,6 +28,10 @@ class customer extends Model
         'customer_speciality_id',
         'activity_id',
         'area_id',
+        'sector_id',
+        'sub_address_id',
+        'street_id',
+        'detailed_address',
         'business_hours_id',
         'vendor_id',
         'preferred_buying_method_id',
@@ -44,9 +48,18 @@ class customer extends Model
         'secretary_mobile',
     ];
 
+    protected $casts = [
+        'documents' => 'json',
+    ];
+
     public function order()
     {
         return $this->hasMany(order::class);
+    }
+
+    public function offer()
+    {
+        return $this->belongsTo(offer::class);
     }
 
     public function review()
@@ -69,6 +82,21 @@ class customer extends Model
         return $this->belongsTo(area::class);
     }
 
+    public function sector()
+    {
+        return $this->belongsTo(sector::class);
+    }
+
+    public function SubAddress()
+    {
+        return $this->belongsTo(SubAddress::class);
+    }
+
+    public function street()
+    {
+        return $this->belongsTo(street::class);
+    }
+
     public function BusinessHours()
     {
         return $this->belongsTo(BusinessHours::class);
@@ -76,7 +104,7 @@ class customer extends Model
 
     public function vendor()
     {
-        return $this->belongsTo(vendor::class);
+        return $this->belongsToMany(vendor::class);
     }
 
     public function PreferredBuyingMethod()

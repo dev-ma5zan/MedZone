@@ -14,5 +14,6 @@ class VendorSpeciality extends Model
 
     protected $fillable = [
         'name',
+        'weight',
     ];
 }

@@ -19,12 +19,22 @@ class SectorResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    protected static ?string $navigationGroup = 'الاعدادات';
+
+    protected static ?string $label = 'قطاع';
+
+    protected static ?string $pluralLabel = 'القطاعات';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->label('الاسم')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('weight')
+                    ->label('الوزن')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('area_id')
@@ -40,7 +50,7 @@ class SectorResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('الاسم'),
-                Tables\Columns\TextColumn::make('area_id')
+                Tables\Columns\TextColumn::make('area.name')
                     ->label('المنطقة'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('تم الانشاء')

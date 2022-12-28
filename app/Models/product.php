@@ -22,7 +22,7 @@ class product extends Model
         'vendor_id',
         'serial_number',
         'featured_cover_image',
-        'images',
+        'pictures',
         'description',
         'documents',
         'links',
@@ -30,9 +30,16 @@ class product extends Model
         'prices',
     ];
 
-    public function TopCategory()
+    protected $casts = [
+        'documents' => 'json',
+        'pictures' => 'json',
+        'links' => 'json',
+        'properties' => 'json',
+    ];
+
+    public function Category()
     {
-        return $this->belongsTo(TopCategory::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function vendor()
@@ -50,9 +57,14 @@ class product extends Model
         return $this->belongsTo(contract::class);
     }
 
+    public function offer()
+    {
+        return $this->hasMany(offer::class);
+    }
+
     public function order() 
     {
-      return $this->belongsToMany(order::Class, 'order_has_products');
+      return $this->hasMany(order::Class);
     }
 
 }

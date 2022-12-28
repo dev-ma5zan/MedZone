@@ -20,6 +20,12 @@ class CustomerSpecialityResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    protected static ?string $navigationGroup = 'الاعدادات';
+
+    protected static ?string $label = 'تخصص الزبون';
+
+    protected static ?string $pluralLabel = 'تخصصات الزبائن';
+
     public static function form(Form $form): Form
     {
         return $form

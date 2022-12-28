@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateLocationType extends CreateRecord
 {
     protected static string $resource = LocationTypeResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

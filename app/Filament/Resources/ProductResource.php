@@ -19,71 +19,110 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-beaker';
 
+    protected static ?string $label = 'منتج';
+
+    protected static ?string $pluralLabel = 'المنتجات';
+
     protected static ?int $navigationSort = 6;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('code')
-                    ->label('الكود')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('category_id')
-                    ->required()
-                    ->label('الفئة')
-                    ->numeric()
-                    ->maxLength(4),
-                Forms\Components\Textarea::make('tags')
-                    ->required()
-                    ->label('التاجز')
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('availability')
-                    ->required()
-                    ->label('متاح')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('visability')
-                    ->required()
-                    ->label('ظاهر')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('featured')
-                    ->required()
-                    ->label('متميز')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('properties')
-                    ->required()
-                    ->label('الخصائص')
-                    ->numeric()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('serial_number')
-                    ->required()
-                    ->label('الرقم المتسلسل')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('featured_cover_image')
-                    ->required()
-                    ->label('صورة الغلاف')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('description')
-                    ->required()
-                    ->label('الوصف')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('prices')
-                    ->required()
-                    ->label('السعر')
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('images')
-                    ->directory('ProductResource/image')
-                    ->label('الصور'),
-                Forms\Components\Select::make('vendor_id')
-                    ->relationship('vendor', 'business_name')
-                    ->required()
-                    ->label('المورد'),
-                Forms\Components\FileUpload::make('documents')
-                    ->directory('ProductResource/documents')
-                    ->label('الملفات'),
-                Forms\Components\TextInput::make('links')
-                    ->url()
-                    ->label('الروابط'),
+                Forms\Components\Card::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('code')
+                            ->label('الكود')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Select::make('category_id')
+                            ->required()
+                            ->label('لفئة')
+                            ->relationship('category','name'),
+                        Forms\Components\TextInput::make('tags')
+                            ->required()
+                            ->label('العلامات')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('serial_number')
+                            ->numeric()
+                            ->required()
+                            ->label('الرقم المتسلسل')
+                            ->maxLength(255),
+                        Forms\Components\Select::make('vendor_id')
+                            ->relationship('vendor', 'business_name')
+                            ->required()
+                            ->label('المورد'),
+                        Forms\Components\TextInput::make('prices')
+                            ->required()
+                            ->label('السعر')
+                            ->maxLength(255),
+                        Forms\Components\FileUpload::make('featured_cover_image')
+                            ->label('صورة الغلاف')
+                            ->required()
+                            ->directory('ProductResource/cover_image'),
+                        Forms\Components\Textarea::make('description')
+                            ->required()
+                            ->label('الوصف')
+                            ->maxLength(255),
+                    ])->columns(2)->columnSpan(1),
+                Forms\Components\Card::make()
+                    ->schema([
+                        Forms\Components\Repeater::make('documents')
+                            ->schema([
+                                Forms\Components\FileUpload::make('document')
+                                    ->label('الملف')
+                                    ->directory('ProductResource/Documents'),
+                            ])
+                            ->columns(1)->required(),
+                        Forms\Components\Repeater::make('pictures')
+                            ->schema([
+                                Forms\Components\FileUpload::make('picture')
+                                    ->label('الصورة')
+                                    ->directory('ProductResource/pictures'),
+                            ])
+                            ->columns(1)->required(),
+                        Forms\Components\Repeater::make('links')
+                            ->schema([
+                                Forms\Components\TextInput::make('Url')
+                                    ->label('الرابط')
+                                    ->url(),
+                            ])
+                            ->columns(1)->required(),
+                        Forms\Components\Repeater::make('properties')
+                            ->schema([
+                                Forms\Components\TextInput::make('property')
+                                    ->label('الخصائص'),
+                            ])->columns(1)->required(),
+                    ])->columns(2)->columnSpan(1),
+                Forms\Components\Card::make()
+                    ->schema([
+                        Forms\Components\Toggle::make('visability')
+                            ->label('ظاهرة')
+                            ->inline(false)
+                            ->onColor('success')
+                            ->offColor('danger'),
+                        
+                        Forms\Components\Toggle::make('featured')
+                            ->required()
+                            ->label('متميز')
+                            ->inline(false)
+                            ->onColor('success')
+                            ->offColor('danger'),
+                        Forms\Components\Toggle::make('availability')
+                            ->label('متاح')
+                            ->inline(false)
+                            ->onColor('success')
+                            ->offColor('danger'),
+                    ])->columns(2)->columnSpan(1),
+                Forms\Components\Card::make()
+                ->schema([
+                    Forms\Components\Placeholder::make('created_at')
+                        ->label('تم الانشاء')
+                        ->content(fn (?product $record): string => $record ? $record->created_at->diffForHumans() : '-'),
+                    Forms\Components\Placeholder::make('updated_at')
+                        ->label('تم التعديل')
+                        ->content(fn (?product $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
+                ])->columnSpan(1)->hidden(fn (?product $record) => $record == null),
             ]);
     }
 
@@ -97,24 +136,24 @@ class ProductResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
                     ->label('الوصف'),
-                Tables\Columns\TextColumn::make('category_id')
-                    ->label('لبفئة'),
+                Tables\Columns\TextColumn::make('category.name')
+                    ->label('الفئة'),
                 Tables\Columns\TextColumn::make('tags')
                     ->sortable()
                     ->label('التاغز')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('availability')
+                Tables\Columns\ToggleColumn::make('availability')
                     ->sortable()
                     ->label('متاح'),
-                Tables\Columns\TextColumn::make('visability')
+                Tables\Columns\ToggleColumn::make('visability')
                     ->sortable()
                     ->label('ظاهر')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('featured')
+                Tables\Columns\ToggleColumn::make('featured')
                     ->searchable()
                     ->label('متميز')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('vendor_id')
+                Tables\Columns\TextColumn::make('vendor.name')
                     ->searchable()
                     ->label('المورد')
                     ->sortable(),
@@ -122,27 +161,12 @@ class ProductResource extends Resource
                     ->searchable()
                     ->label('الرقم التسلسلي')
                     ->sortable(),
-                Tables\Columns\ImageColumn::make('images')
-                    ->square()
-                    ->label('الصور'),
                 Tables\Columns\ImageColumn::make('featured_cover_image')
                     ->square()
                     ->label('صورة الغلاف'),
                 Tables\Columns\TextColumn::make('description')
                     ->sortable()
                     ->label('الوصف'),
-                Tables\Columns\TextColumn::make('documents')
-                    ->sortable()
-                    ->label('الملفات')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('links')
-                    ->sortable()
-                    ->label('الروابط')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('properties')
-                    ->sortable()
-                    ->label('الخصائص')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('prices')
                     ->sortable()
                     ->label('السعر')

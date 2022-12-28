@@ -14,6 +14,7 @@ class area extends Model
 
     protected $fillable = [
         'name',
+        'weight',
     ];
 
     public function sector()

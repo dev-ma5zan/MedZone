@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateBusinessHours extends CreateRecord
 {
     protected static string $resource = BusinessHoursResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

@@ -14,6 +14,7 @@ class PreferredBuyingMethod extends Model
 
     protected $fillable = [
         'name',
+        'weight',
     ];
 
     public function customer()

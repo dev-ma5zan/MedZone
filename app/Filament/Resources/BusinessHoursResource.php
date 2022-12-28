@@ -19,22 +19,37 @@ class BusinessHoursResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    protected static ?string $navigationGroup = 'الاعدادات';
+
+    protected static ?string $label = 'ساعة عمل';
+
+    protected static ?string $pluralLabel = 'ساعات العمل';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('day')
+                Forms\Components\Select::make('day')
                     ->label('اليوم')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('starts_at')
+                    ->options([
+                        'Saturday' => 'سبت',
+                        'Sunday' => 'احد',
+                        'Monday' => 'اثنين',
+                        'Tuesday' => 'ثلاثاء',
+                        'Wednesday' => 'اربعاء',
+                        'Thursday' => 'خميس',
+                        'Friday' => 'جمعة',
+                    ]),
+                Forms\Components\TimePicker::make('starts_at')
                     ->label('يبدأ في')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('ends_at')
+                    ->required(),
+                Forms\Components\TimePicker::make('ends_at')
                     ->label('ينتهي في')
-                    ->required()
-                    ->maxLength(255),
+                    ->required(),
+                Forms\Components\TextInput::make('weight')
+                    ->label('الوزن')
+                    ->required(),
             ]);
     }
 
@@ -53,6 +68,9 @@ class BusinessHoursResource extends Resource
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('تم التعديل')
+                    ->dateTime(),
+                Tables\Columns\TextColumn::make('deleted_at')
+                    ->label('تم الحذف')
                     ->dateTime(),
             ])
             ->filters([

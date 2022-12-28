@@ -19,26 +19,41 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    protected static ?string $label = 'فئة';
+
+    protected static ?string $pluralLabel = 'الفئات';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label('الاسم')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('icon')
-                    ->directory('CategoryResource/icon')
-                    ->required()
-                    ->label('الكود'),
-                Forms\Components\Select::make('parent_id')
-                    ->label('الفئة الاب')
-                    ->relationship('category','name'),
-                Forms\Components\Toggle::make('visability')
-                    ->label('ظاهرة')
-                    ->inline(false)
-                    ->onColor('success')
-                    ->offColor('danger'),
+                Forms\Components\Card::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label('الاسم')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\FileUpload::make('icon')
+                            ->directory('CategoryResource/icon')
+                            ->label('الصورة'),
+                        Forms\Components\Select::make('categoryx_id')
+                            ->label('الفئة الاب')
+                            ->relationship('category','name'),
+                        Forms\Components\Toggle::make('visability')
+                            ->label('ظاهرة')
+                            ->inline(false)
+                            ->onColor('success')
+                            ->offColor('danger'),
+                    ])->columns(2)->columnSpan(1),
+                    Forms\Components\Card::make()
+                    ->schema([
+                        Forms\Components\Placeholder::make('created_at')
+                            ->label('تم الانشاء')
+                            ->content(fn (?category $record): string => $record ? $record->created_at->diffForHumans() : '-'),
+                        Forms\Components\Placeholder::make('updated_at')
+                            ->label('تم التعديل')
+                            ->content(fn (?category $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
+                    ])->columnSpan(['lg' => 1])->hidden(fn (?category $record) => $record == null),
             ]);
     }
 
@@ -53,13 +68,18 @@ class CategoryResource extends Resource
                     ->square(),
                 Tables\Columns\TextColumn::make('slug')
                     ->label('الكود'),
-                Tables\Columns\TextColumn::make('parent_id')
+                Tables\Columns\TextColumn::make('category.name')
                     ->label('الفئة الاب'),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime(),
+                Tables\Columns\ToggleColumn::make('visability')
+                    ->label('ظاهرة'),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('تم الانشاء')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('تم التعديل')
+                    ->dateTime(),
+                Tables\Columns\TextColumn::make('deleted_at')
+                    ->label('تم الحذف')
                     ->dateTime(),
             ])
             ->filters([

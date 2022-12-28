@@ -19,12 +19,22 @@ class StreetResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    protected static ?string $navigationGroup = 'الاعدادات';
+
+    protected static ?string $label = 'شارع';
+
+    protected static ?string $pluralLabel = 'الشوارع';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->label('الاسم')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('weight')
+                    ->label('الوزن')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('sub_address_id')
@@ -40,7 +50,7 @@ class StreetResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('الاسم'),
-                Tables\Columns\TextColumn::make('sub_address_id')
+                Tables\Columns\TextColumn::make('SubAddress.name')
                     ->label('العنوان الفرعي'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('تم الانشاء')

@@ -23,4 +23,9 @@ class CreateCategory extends CreateRecord
             $this->data['name'] = 'not_parent';
         }
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

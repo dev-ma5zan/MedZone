@@ -19,44 +19,59 @@ class VendorResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-truck';
 
+    protected static ?string $label = 'مورد';
+
+    protected static ?string $pluralLabel = 'الموردين';
+
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('business_name')
-                    ->label('اسم المورد')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('mobile')
-                    ->label('رقم الهاتف')
-                    ->tel()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('code')
-                    ->label('الكود')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('website')
-                    ->label('البريد الالكتروني')
-                    ->url()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('land_phone')
-                    ->label('الرقم الارضي')
-                    ->tel()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('speciality_id')
-                    ->label('التخصص')
-                    ->relationship('VendorSpeciality', 'name')
-                    ->required(),
-                Forms\Components\TextInput::make('rating')
-                    ->label('التقييم')
-                    ->required()
-                    ->numeric()
-                    ->maxLength(255),
+                Forms\Components\Card::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('business_name')
+                            ->label('اسم المورد')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('mobile')
+                            ->label('رقم الهاتف')
+                            ->tel()
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('code')
+                            ->label('الكود')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('website')
+                            ->label('البريد الالكتروني')
+                            ->url()
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('land_phone')
+                            ->label('الرقم الارضي')
+                            ->tel()
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Select::make('speciality_id')
+                            ->label('التخصص')
+                            ->relationship('VendorSpeciality', 'name')
+                            ->required(),
+                        Forms\Components\TextInput::make('rating')
+                            ->label('التقييم')
+                            ->required()
+                            ->maxLength(255),
+                    ])->columns(2)->columnSpan(1),
+                    Forms\Components\Card::make()
+                    ->schema([
+                        Forms\Components\Placeholder::make('created_at')
+                            ->label('تم الانشاء')
+                            ->content(fn (?vendor $record): string => $record ? $record->created_at->diffForHumans() : '-'),
+                        Forms\Components\Placeholder::make('updated_at')
+                            ->label('تم التعديل')
+                            ->content(fn (?vendor $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
+                    ])->columnSpan(1)->hidden(fn (?vendor $record) => $record == null),
             ]);
     }
 
@@ -74,7 +89,7 @@ class VendorResource extends Resource
                 Tables\Columns\TextColumn::make('code')
                     ->label('الكود')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('speciality_id')
+                Tables\Columns\TextColumn::make('speciality.name')
                     ->label('التخصص'),
                 Tables\Columns\TextColumn::make('land_phone')
                     ->label('الرقم الارضي')

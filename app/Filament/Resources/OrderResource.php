@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Models\Order;
+use App\Models\Product;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -19,36 +20,82 @@ class OrderResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
 
+    protected static ?string $label = 'طلب';
+
+    protected static ?string $pluralLabel = 'الطلبات';
+
     protected static ?int $navigationSort = 7;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('status')
-                    ->label('الحالة')
-                    ->options([
-                        'processing' => 'المعالجة',
-                        'accepted' => 'القبول',
-                        'out_for_delivery' => 'قيد التوصيل',
-                    ])
-                    ->default('processing')
-                    ->required(),
-                Forms\Components\TextInput::make('code')
-                    ->label('الكود')
-                    ->required(),
-                Forms\Components\Select::make('customer_id')
-                    ->label('الزبون')
-                    ->relationship('customer', 'name')
-                    ->required(),
-                Forms\Components\Select::make('user_id')
-                    ->label('الموظف المسؤول')
-                    ->relationship('user', 'name'),
-                Forms\Components\MultiSelect::make('product')
-                    ->label('المنتجات')
-                    ->relationship('product', 'name')
-                    ->preload()
-                    ->required(),
+                Forms\Components\Card::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('code')
+                            ->label('الكود')
+                            ->required(),
+                        Forms\Components\Select::make('status')
+                            ->label('الحالة')
+                            ->options([
+                                'Pending' => 'قيد المعالجة',
+                                'Assigned' => 'تم قبول الطلب',
+                                'Canceled' => 'تم الغاء الطلب',
+                                'Payed' => 'تم الدفع',
+                                'Archived' => 'تم ارشافه',
+                            ])
+                            ->default('Pending')
+                            ->required(),
+                        Forms\Components\Select::make('customer_id')
+                            ->label('الزبون')
+                            ->relationship('customer', 'business_name')
+                            ->required(),
+                        Forms\Components\Select::make('user_id')
+                            ->label('الموظف المسؤول')
+                            ->relationship('user', 'name'),
+                        Forms\Components\Repeater::make('products')
+                            ->schema([
+                                Forms\Components\Select::make('product')
+                                    ->relationship('product', 'code')
+                                    ->preload()
+                                    ->required()
+                                    ->reactive()
+                                    ->afterStateUpdated(fn (callable $set) => $set('price', null)),
+                                Forms\Components\TextInput::make('amount')
+                                    ->numeric()
+                                    ->reactive()
+                                    ->default(1)
+                                    ->minValue(1)
+                                    ->required(),
+                                Forms\Components\Placeholder::make('price')
+                                    ->disabled()
+                                    ->content(function (callable $get)
+                                    {
+                                        $product = Product::find($get('product'));
+
+                                        if(! $product)
+                                        {
+                                            return '0';
+                                        }
+
+                                        $amount = fn (Closure $get) => $get('amount');
+
+                                        $price = $product->pluck('prices')[0] * parse_str($amount, $amount);
+                                        return $price;
+                                    }),
+                            ])
+                            ->columns(3)->columnSpan(2),
+                        Forms\Components\TextInput::make('total'),
+                    ])->columns(2)->columnSpan(1),
+                    Forms\Components\Card::make()
+                    ->schema([
+                        Forms\Components\Placeholder::make('created_at')
+                            ->label('تم الانشاء')
+                            ->content(fn (?order $record): string => $record ? $record->created_at->diffForHumans() : '-'),
+                        Forms\Components\Placeholder::make('updated_at')
+                            ->label('تم التعديل')
+                            ->content(fn (?order $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
+                    ])->columnSpan(1)->hidden(fn (?order $record) => $record == null),
             ]);
     }
 
@@ -56,25 +103,25 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('code')
+                    ->label('الكود'),
                 Tables\Columns\TextColumn::make('status')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('full_price')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('customer.name')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('vendor.name')
-                    ->sortable()
-                    ->searchable(),
+                    ->label('الحالة'),
+                Tables\Columns\TextColumn::make('customer.business_name')
+                    ->label('اسم الزبون'),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('اسم الموظف المسؤول'),
+                Tables\Columns\TextColumn::make('product.code')
+                    ->label('المنتج'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable(),
+                    ->label('تم الانشاء')
+                    ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable(),
+                    ->label('تم التعديل')
+                    ->dateTime(),
                 Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime()
-                    ->sortable(),
+                    ->label('تم الحذف')
+                    ->dateTime(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

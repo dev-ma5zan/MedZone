@@ -19,6 +19,10 @@ class OfferResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    protected static ?string $label = 'عرض';
+
+    protected static ?string $pluralLabel = 'العروض';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -31,17 +35,16 @@ class OfferResource extends Resource
                     ->required()
                     ->label('العنوان')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('products')
-                    ->required()
-                    ->label('المنتجات'),
                 Forms\Components\DatePicker::make('starts_at')
                     ->required()
                     ->label('يبدأ في'),
                 Forms\Components\DatePicker::make('ends_at')
                     ->required()
                     ->label('ينتهي في'),
-                Forms\Components\TextInput::make('customer_id')
+                Forms\Components\MultiSelect::make('customer_id')
                     ->required()
+                    ->preload()
+                    ->relationship('customer','business_name')
                     ->label('الزبون'),
                 Forms\Components\TextInput::make('minimal_overall_price')
                     ->required()
@@ -55,6 +58,16 @@ class OfferResource extends Resource
                     ->required()
                     ->label('السعر الجديد')
                     ->maxLength(255),
+                Forms\Components\Repeater::make('products')
+                    ->schema([
+                        Forms\Components\Select::make('product')
+                            ->relationship('product', 'code')
+                            ->preload()
+                            ->required(),
+                        Forms\Components\TextInput::make('price')
+                            ->required(),
+                    ])
+                    ->columns(3)->columnSpan(2),
             ]);
     }
 
@@ -74,7 +87,7 @@ class OfferResource extends Resource
                 Tables\Columns\TextColumn::make('ends_at')
                     ->label('ينتهي في')
                     ->date(),
-                Tables\Columns\TextColumn::make('customer_id')
+                Tables\Columns\TextColumn::make('customer.name')
                     ->label('الزبون'),
                 Tables\Columns\TextColumn::make('minimal_overall_price')
                     ->label('اقل سعر اجمالي'),

@@ -15,7 +15,7 @@ class offer extends Model
     protected $fillable = [
         'code',
         'title',
-        'product_id',
+        'products',
         'starts_at',
         'ends_at',
         'customer_id',
@@ -23,4 +23,18 @@ class offer extends Model
         'discount_percentage',
         'new_price',
     ];
+
+    protected $casts = [
+        'products' => 'json',
+    ];
+
+    public function customer()
+    {
+        return $this->belongsToMany(customer::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(product::class);
+    }
 }

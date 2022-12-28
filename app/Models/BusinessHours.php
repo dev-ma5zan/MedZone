@@ -16,6 +16,7 @@ class BusinessHours extends Model
         'day',
         'starts_at',
         'ends_at',
+        'weight',
     ];
 
     public function customer()

@@ -15,11 +15,17 @@ class SubAddress extends Model
     protected $fillable = [
         'name',
         'sector_id',
+        'weight',
     ];
 
     public function sector()
     {
         return $this->belongsTo(sector::class);
+    }
+
+    public function customer()
+    {
+        return $this->hasMany(customer::class);
     }
 
     public function street()

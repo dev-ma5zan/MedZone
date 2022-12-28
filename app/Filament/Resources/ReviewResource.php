@@ -19,24 +19,40 @@ class ReviewResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    protected static ?string $label = 'تقييم';
+
+    protected static ?string $pluralLabel = 'التقييمات';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('customer_id')
-                    ->relationship('customer','full_name')
-                    ->label('الزبون'),
-                Forms\Components\Select::make('product_id')
-                    ->relationship('product','name')
-                    ->label('المنتج'),
-                Forms\Components\TextInput::make('notes')
-                    ->required()
-                    ->label('الملاحظات')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('rating')
-                    ->required()
-                    ->label('التقييم')
-                    ->maxLength(255),
+                Forms\Components\Card::make()
+                    ->schema([
+                        Forms\Components\Select::make('customer_id')
+                            ->relationship('customer','full_name')
+                            ->label('الزبون'),
+                        Forms\Components\Select::make('product_id')
+                            ->relationship('product','code')
+                            ->label('المنتج'),
+                        Forms\Components\Textarea::make('notes')
+                            ->required()
+                            ->label('الملاحظات')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('rating')
+                            ->required()
+                            ->label('التقييم')
+                            ->maxLength(255),
+                    ])->columns(2)->columnSpan(1),
+                    Forms\Components\Card::make()
+                    ->schema([
+                        Forms\Components\Placeholder::make('created_at')
+                            ->label('تم الانشاء')
+                            ->content(fn (?review $record): string => $record ? $record->created_at->diffForHumans() : '-'),
+                        Forms\Components\Placeholder::make('updated_at')
+                            ->label('تم التعديل')
+                            ->content(fn (?review $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
+                    ])->columnSpan(1)->hidden(fn (?review $record) => $record == null),
             ]);
     }
 
@@ -44,9 +60,9 @@ class ReviewResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('customer_id')
+                Tables\Columns\TextColumn::make('customer.name')
                     ->label('الزبون'),
-                Tables\Columns\TextColumn::make('product_id')
+                Tables\Columns\TextColumn::make('product.name')
                     ->label('المنتج'),
                 Tables\Columns\TextColumn::make('rating')
                     ->label('التقييم'),

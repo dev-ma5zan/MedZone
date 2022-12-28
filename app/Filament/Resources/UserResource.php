@@ -20,39 +20,55 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    protected static ?string $label = 'موظف';
+
+    protected static ?string $pluralLabel = 'الموظفين';
+
     protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label('الاسم')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->label('البريد الالكتروني')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('password')
-                    ->label('كلمة السر')
-                    ->password()
-                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
-                    ->dehydrated(fn ($state) => filled($state))
-                    ->required(fn (string $context): bool => $context === 'create')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('mobile')
-                    ->label('رقم الموبايل')
-                    ->tel()
-                    ->required()
-                    ->maxLength(15),
-                Forms\Components\MultiSelect::make('role')
-                    ->label('الصلاحيات')
-                    ->relationship('roles', 'name')
-                    ->preload()
-                    ->required(),
+                Forms\Components\Card::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label('الاسم')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('email')
+                            ->label('البريد الالكتروني')
+                            ->email()
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('password')
+                            ->label('كلمة السر')
+                            ->password()
+                            ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                            ->dehydrated(fn ($state) => filled($state))
+                            ->required(fn (string $context): bool => $context === 'create')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('mobile')
+                            ->label('رقم الموبايل')
+                            ->tel()
+                            ->required()
+                            ->maxLength(15),
+                        Forms\Components\MultiSelect::make('role')
+                            ->label('الصلاحيات')
+                            ->relationship('roles', 'name')
+                            ->preload()
+                            ->required(),
+                    ])->columns(2)->columnSpan(1),
+                    Forms\Components\Card::make()
+                    ->schema([
+                        Forms\Components\Placeholder::make('created_at')
+                            ->label('تم الانشاء')
+                            ->content(fn (?category $record): string => $record ? $record->created_at->diffForHumans() : '-'),
+                        Forms\Components\Placeholder::make('updated_at')
+                            ->label('تم التعديل')
+                            ->content(fn (?category $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
+                    ])->columnSpan(1)->hidden(fn (?category $record) => $record == null),
             ]);
     }
 
@@ -64,8 +80,6 @@ class UserResource extends Resource
                     ->label('الاسم'),
                 Tables\Columns\TextColumn::make('email')
                     ->label('البريد الالكتروني'),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('تم انشائها')
                     ->dateTime(),

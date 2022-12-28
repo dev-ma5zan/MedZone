@@ -19,12 +19,22 @@ class VendorSpecialityResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    protected static ?string $navigationGroup = 'الاعدادات';
+
+    protected static ?string $label = 'تخصص مورد';
+
+    protected static ?string $pluralLabel = 'تخصصات المورديين';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->label('الاسم')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('weight')
+                    ->label('الوزن')
                     ->required()
                     ->maxLength(255),
             ]);

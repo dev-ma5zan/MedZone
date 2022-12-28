@@ -17,6 +17,11 @@ class order extends Model
         'code',
         'customer_id',
         'user_id',
+        'products',
+    ];
+
+    protected $casts = [
+        'products' => 'json',
     ];
 
     public function customer()
@@ -31,7 +36,7 @@ class order extends Model
 
     public function product()
     {
-      return $this->belongsToMany(product::Class, 'order_has_products');
+      return $this->belongsTo(product::Class);
     }
 
 }

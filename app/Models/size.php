@@ -14,7 +14,7 @@ class size extends Model
 
     protected $fillable = [
         'name',
-        'customer_id',
+        'weight',
     ];
 
     public function customer()

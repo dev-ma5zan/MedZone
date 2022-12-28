@@ -19,6 +19,12 @@ class LocationTypeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    protected static ?string $navigationGroup = 'الاعدادات';
+
+    protected static ?string $label = 'نوع الموقع';
+
+    protected static ?string $pluralLabel = 'انواع المواقع';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -27,10 +33,10 @@ class LocationTypeResource extends Resource
                     ->label('الاسم')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('customer_id')
-                    ->label('الزبون')
-                    ->relationship('customer','name')
-                    ->required(),
+                Forms\Components\TextInput::make('weight')
+                    ->label('الوزن')
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
@@ -40,8 +46,6 @@ class LocationTypeResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('الاسم'),
-                Tables\Columns\TextColumn::make('customer_id')
-                    ->label('الزبون'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('تم الانشاء')
                     ->dateTime(),

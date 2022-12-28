@@ -39,6 +39,6 @@ class vendor extends Model
     //change relationship to manytomany
     public function customer()
     {
-        return $this->hasMany(customer::class);
+        return $this->belongsToMany(customer::class);
     }
 }
