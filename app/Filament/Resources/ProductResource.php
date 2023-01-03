@@ -48,18 +48,14 @@ class ProductResource extends Resource
                             ->required()
                             ->label('الرقم المتسلسل')
                             ->maxLength(255),
-                        Forms\Components\Select::make('vendor_id')
-                            ->relationship('vendor', 'business_name')
-                            ->required()
-                            ->label('المورد'),
-                        Forms\Components\TextInput::make('prices')
-                            ->required()
-                            ->label('السعر')
-                            ->maxLength(255),
                         Forms\Components\Textarea::make('description')
                             ->required()
                             ->label('الوصف')
                             ->maxLength(255),
+                        Forms\Components\Select::make('vendor_id')
+                            ->relationship('vendor', 'business_name')
+                            ->required()
+                            ->label('المورد'),
                         Forms\Components\FileUpload::make('featured_cover_image')
                             ->label('صورة الغلاف')
                             ->required()
