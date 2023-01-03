@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->string('status');
             $table->string('total');
-            $table->json_encode('products');
+            $table->json('products');
             $table->foreignId('customer_id');
             $table->foreignId('user_id');
             $table->timestamps();

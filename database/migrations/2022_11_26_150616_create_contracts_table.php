@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('code');
             $table->foreignId('vendor_id');
-            $table->json_encode('documents');
+            $table->json('documents');
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });

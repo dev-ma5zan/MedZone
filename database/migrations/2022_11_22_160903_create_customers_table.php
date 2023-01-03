@@ -38,7 +38,7 @@ return new class extends Migration
             $table->foreignId('power_id');
             $table->string('behavior');
             $table->string('notes');
-            $table->string('documents');
+            $table->json('documents');
             $table->string('rating');
             $table->string('secretary_name');
             $table->timestamp('deleted_at')->nullable();

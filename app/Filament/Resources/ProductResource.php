@@ -108,6 +108,11 @@ class ProductResource extends Resource
                                 Forms\Components\TextInput::make('property')
                                     ->label('الخصائص'),
                             ])->columns(1)->required(),
+                        Forms\Components\Repeater::make('prices')
+                            ->schema([
+                                Forms\Components\TextInput::make('price')
+                                    ->label('السعر'),
+                            ])->columns(1)->required(),
                     ])->columns(2)->columnSpan(2),
                 Forms\Components\Card::make()
                     ->schema([
@@ -173,10 +178,6 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('description')
                     ->sortable()
                     ->label('الوصف'),
-                Tables\Columns\TextColumn::make('prices')
-                    ->sortable()
-                    ->label('السعر')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->label('تم الانشاء')

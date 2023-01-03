@@ -35,6 +35,7 @@ class product extends Model
         'pictures' => 'json',
         'links' => 'json',
         'properties' => 'json',
+        'prices' => 'json',
     ];
 
     public function Category()
