@@ -23,7 +23,6 @@ return new class extends Migration
             $table->boolean('featured');
             $table->foreignId('vendor_id');
             $table->string('serial_number');
-            $table->string('featured_cover_image');
             $table->json('featured_cover_image');
             $table->json('images');
             $table->json('links');

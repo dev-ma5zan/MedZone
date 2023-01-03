@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('code')->unique();
             $table->string('title');
-            $table->josn('products');
+            $table->json('products');
             $table->date('starts_at');
             $table->date('ends_at');
             $table->foreignId('customer_id');
