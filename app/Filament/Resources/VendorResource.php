@@ -62,7 +62,13 @@ class VendorResource extends Resource
                             ->label('التقييم')
                             ->required()
                             ->maxLength(255),
-                    ])->columns(2)->columnSpan(1),
+                    ])->columns(2)->columnSpan(function (?vendor $record)
+                        { 
+                            if($record == null)
+                                    return 'full';
+                                else
+                                    return 2;
+                        }),
                     Forms\Components\Card::make()
                     ->schema([
                         Forms\Components\Placeholder::make('created_at')
@@ -72,7 +78,7 @@ class VendorResource extends Resource
                             ->label('تم التعديل')
                             ->content(fn (?vendor $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
                     ])->columnSpan(1)->hidden(fn (?vendor $record) => $record == null),
-            ]);
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table

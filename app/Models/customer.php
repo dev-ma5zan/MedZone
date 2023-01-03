@@ -50,6 +50,7 @@ class customer extends Model
 
     protected $casts = [
         'documents' => 'json',
+        'vendor_id' => 'array',
     ];
 
     public function order()

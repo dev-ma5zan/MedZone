@@ -26,6 +26,7 @@ class offer extends Model
 
     protected $casts = [
         'products' => 'json',
+        'customer_id' => 'array',
     ];
 
     public function customer()

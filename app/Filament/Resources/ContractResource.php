@@ -45,7 +45,13 @@ class ContractResource extends Resource
                                     ->directory('ContractResource/Documents'),
                             ])
                             ->columns(1)->columnSpan(2)->required(),
-                    ])->columns(2)->columnSpan(1),
+                    ])->columns(2)->columnSpan(function (?contract $record)
+                        { 
+                            if($record == null)
+                                    return 'full';
+                                else
+                                    return 2;
+                        }),
                     Forms\Components\Card::make()
                     ->schema([
                         Forms\Components\Placeholder::make('created_at')
@@ -55,7 +61,7 @@ class ContractResource extends Resource
                             ->label('تم التعديل')
                             ->content(fn (?contract $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
                     ])->columnSpan(1)->hidden(fn (?contract $record) => $record == null),
-            ]);
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table

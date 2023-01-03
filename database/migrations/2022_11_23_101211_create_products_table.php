@@ -15,26 +15,23 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('image');
             $table->string('code')->unique();
-            $table->string('status');
-            $table->integer('price');
-            $table->string('arabic_desc');
-            $table->string('english_desc');
             $table->foreignId('category_id');
+            $table->string('tags');
+            $table->boolval('availability');
+            $table->boolval('visability');
+            $table->boolval('featured');
             $table->foreignId('vendor_id');
-            $table->foreignId('contract_id');
-            $table->string('type')->default('lab');
-            $table->string('manufacturer');
-            $table->string('manufacturer_logo');
-            $table->string('quantity');
-            $table->string('brand_name');
-            $table->string('product_line');
-            $table->string('country_of_origin');
-            $table->string('pdf');
-            $table->string('url');
-            $table->timestamp('deleted_at');
+            $table->string('serial_number');
+            $table->string('featured_cover_image');
+            $table->json_encode('featured_cover_image');
+            $table->json_encode('images');
+            $table->json_encode('links');
+            $table->json_encode('documents');
+            $table->json_encode('properties');
+            $table->string('prices');
+            $table->string('description');
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

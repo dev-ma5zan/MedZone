@@ -105,8 +105,23 @@ class CustomerResource extends Resource
                                     ->label('الملف')
                                     ->directory('CustomerResource/Documents'),
                             ])
-                            ->columns(1)->columnSpan(2)->required(),
-                    ])->columns(2)->columnSpan(1),
+                            ->columns(1)->required(),
+                    ])->columns(2)->columnSpan(function (?customer $record)
+                        { 
+                            if($record == null)
+                                    return 'full';
+                                else
+                                    return 2;
+                        }),
+                    Forms\Components\Card::make()
+                    ->schema([
+                        Forms\Components\Placeholder::make('created_at')
+                            ->label('تم الانشاء')
+                            ->content(fn (?customer $record): string => $record ? $record->created_at->diffForHumans() : '-'),
+                        Forms\Components\Placeholder::make('updated_at')
+                            ->label('تم التعديل')
+                            ->content(fn (?customer $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
+                    ])->columnSpan(1)->hidden(fn (?customer $record) => $record == null),
                     Forms\Components\Card::make()
                     ->schema([
                         Forms\Components\Select::make('location_type_id')
@@ -129,7 +144,7 @@ class CustomerResource extends Resource
                             ->label('الطاقة')
                             ->required()
                             ->relationship('power','name'),
-                    ])->columns(2)->columnSpan(1),
+                    ])->columns(3)->columnSpan('full'),
                     Forms\Components\Card::make()
                     ->schema([
                         Forms\Components\Select::make('area_id')
@@ -186,17 +201,9 @@ class CustomerResource extends Resource
                             }),
                         Forms\Components\TextInput::make('detailed_address')
                             ->label('وصف الموقع'),
-                    ])->columns(2)->columnSpan(1),
-                    Forms\Components\Card::make()
-                    ->schema([
-                        Forms\Components\Placeholder::make('created_at')
-                            ->label('تم الانشاء')
-                            ->content(fn (?customer $record): string => $record ? $record->created_at->diffForHumans() : '-'),
-                        Forms\Components\Placeholder::make('updated_at')
-                            ->label('تم التعديل')
-                            ->content(fn (?customer $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
-                    ])->columnSpan(1)->hidden(fn (?customer $record) => $record == null),
-            ]);
+                    ])->columns(3)->columnSpan('full'),
+                    
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table

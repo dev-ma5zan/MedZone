@@ -44,7 +44,13 @@ class CategoryResource extends Resource
                             ->inline(false)
                             ->onColor('success')
                             ->offColor('danger'),
-                    ])->columns(2)->columnSpan(1),
+                    ])->columns(2)->columnSpan(function (?category $record)
+                        { 
+                            if($record == null)
+                                    return 'full';
+                                else
+                                    return 2;
+                        }),
                     Forms\Components\Card::make()
                     ->schema([
                         Forms\Components\Placeholder::make('created_at')
@@ -54,7 +60,7 @@ class CategoryResource extends Resource
                             ->label('تم التعديل')
                             ->content(fn (?category $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
                     ])->columnSpan(['lg' => 1])->hidden(fn (?category $record) => $record == null),
-            ]);
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table

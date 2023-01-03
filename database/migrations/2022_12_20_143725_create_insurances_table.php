@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('customer_id');
             $table->timestamps();
+            $table->string('weight');
             $table->timestamp('deleted_at')->nullable();
         });
     }

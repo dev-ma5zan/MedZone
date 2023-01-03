@@ -15,12 +15,14 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->unique();
             $table->string('status');
-            //nullable foor cart or required
-            $table->integer('full_price')->required();
+            $table->string('total');
+            $table->json_encode('products');
             $table->foreignId('customer_id');
-            $table->foreignId('vendor_id');
+            $table->foreignId('user_id');
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 

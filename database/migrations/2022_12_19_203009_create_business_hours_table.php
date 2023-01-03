@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('starts_at');
             $table->string('ends_at');
             $table->string('day');
+            $table->string('weight');
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

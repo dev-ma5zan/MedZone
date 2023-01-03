@@ -17,12 +17,14 @@ return new class extends Migration
             $table->id();
             $table->string('code')->unique();
             $table->string('title');
-            $table->foreignId('products');
+            $table->json_encode('products');
             $table->date('starts_at');
             $table->date('ends_at');
             $table->foreignId('customer_id');
-            $table->string('overall_discount');
+            $table->string('minimal_total_price');
+            $table->string('discount_percentage');
             $table->string('new_price');
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

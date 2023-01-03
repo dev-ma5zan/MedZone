@@ -15,11 +15,15 @@ return new class extends Migration
     {
         Schema::create('vendors', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('phone');
-            $table->string('email')->unique();
-            $table->string('contact_name');
-            $table->string('location');
+            $table->string('business_name');
+            $table->string('code')->unique();
+            $table->foreignId('speciality_id');
+            $table->string('land_phone');
+            $table->string('website');
+            $table->string('rating');
+            $table->string('weight');
+            $table->string('mobile');
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

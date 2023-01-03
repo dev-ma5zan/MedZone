@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('notes');
             $table->string('rating');
             $table->timestamps();
+            $table->string('weight');
             $table->timestamp('deleted_at')->nullable();
         });
     }

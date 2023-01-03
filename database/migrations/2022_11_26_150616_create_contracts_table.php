@@ -15,12 +15,10 @@ return new class extends Migration
     {
         Schema::create('contracts', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('price');
-            $table->string('status');
-            $table->string('products');
-            $table->string('offers_and_notes');
-            $table->timestamp('expires_at');
+            $table->string('code');
+            $table->foreignId('vendor_id');
+            $table->json_encode('documents');
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

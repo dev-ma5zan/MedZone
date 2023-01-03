@@ -43,7 +43,13 @@ class ReviewResource extends Resource
                             ->required()
                             ->label('التقييم')
                             ->maxLength(255),
-                    ])->columns(2)->columnSpan(1),
+                    ])->columns(2)->columnSpan(function (?review $record)
+                        { 
+                            if($record == null)
+                                    return 'full';
+                                else
+                                    return 2;
+                        }),
                     Forms\Components\Card::make()
                     ->schema([
                         Forms\Components\Placeholder::make('created_at')
@@ -53,7 +59,7 @@ class ReviewResource extends Resource
                             ->label('تم التعديل')
                             ->content(fn (?review $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
                     ])->columnSpan(1)->hidden(fn (?review $record) => $record == null),
-            ]);
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table

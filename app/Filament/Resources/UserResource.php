@@ -59,17 +59,23 @@ class UserResource extends Resource
                             ->relationship('roles', 'name')
                             ->preload()
                             ->required(),
-                    ])->columns(2)->columnSpan(1),
+                    ])->columns(2)->columnSpan(function (?User $record)
+                        { 
+                            if($record == null)
+                                    return 'full';
+                                else
+                                    return 2;
+                        }),
                     Forms\Components\Card::make()
                     ->schema([
                         Forms\Components\Placeholder::make('created_at')
                             ->label('تم الانشاء')
-                            ->content(fn (?category $record): string => $record ? $record->created_at->diffForHumans() : '-'),
+                            ->content(fn (?User $record): string => $record ? $record->created_at->diffForHumans() : '-'),
                         Forms\Components\Placeholder::make('updated_at')
                             ->label('تم التعديل')
-                            ->content(fn (?category $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
-                    ])->columnSpan(1)->hidden(fn (?category $record) => $record == null),
-            ]);
+                            ->content(fn (?User $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
+                    ])->columnSpan(1)->hidden(fn (?User $record) => $record == null),
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table

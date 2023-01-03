@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('vendor_specialities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('weight');
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

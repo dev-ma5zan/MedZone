@@ -67,8 +67,14 @@ class OfferResource extends Resource
                         Forms\Components\TextInput::make('price')
                             ->required(),
                     ])
-                    ->columns(3)->columnSpan(2),
-            ]);
+                    ->columns(3)->columnSpan(function (?offer $record)
+                        { 
+                            if($record == null)
+                                    return 'full';
+                                else
+                                    return 2;
+                        }),
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table

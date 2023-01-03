@@ -78,15 +78,19 @@ class OrderResource extends Resource
                                             return '0';
                                         }
 
-                                        $amount = fn (Closure $get) => $get('amount');
-
-                                        $price = $product->pluck('prices')[0] * parse_str($amount, $amount);
+                                        $price = $product->pluck('prices')[0];
                                         return $price;
                                     }),
                             ])
                             ->columns(3)->columnSpan(2),
                         Forms\Components\TextInput::make('total'),
-                    ])->columns(2)->columnSpan(1),
+                    ])->columns(2)->columnSpan(function (?order $record)
+                        { 
+                            if($record == null)
+                                    return 'full';
+                                else
+                                    return 2;
+                        }),
                     Forms\Components\Card::make()
                     ->schema([
                         Forms\Components\Placeholder::make('created_at')
@@ -96,7 +100,7 @@ class OrderResource extends Resource
                             ->label('تم التعديل')
                             ->content(fn (?order $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
                     ])->columnSpan(1)->hidden(fn (?order $record) => $record == null),
-            ]);
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table

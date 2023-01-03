@@ -18,6 +18,7 @@ class order extends Model
         'customer_id',
         'user_id',
         'products',
+        'total',
     ];
 
     protected $casts = [

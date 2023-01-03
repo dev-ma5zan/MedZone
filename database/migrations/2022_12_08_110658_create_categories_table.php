@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('icon')->nullable();
-            $table->string('slug')->unique();
-            $table->foreignId('parent_id');
+            $table->boolval('visability');
+            $table->foreignId('category_id');
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });

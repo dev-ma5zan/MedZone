@@ -56,15 +56,30 @@ class ProductResource extends Resource
                             ->required()
                             ->label('السعر')
                             ->maxLength(255),
-                        Forms\Components\FileUpload::make('featured_cover_image')
-                            ->label('صورة الغلاف')
-                            ->required()
-                            ->directory('ProductResource/cover_image'),
                         Forms\Components\Textarea::make('description')
                             ->required()
                             ->label('الوصف')
                             ->maxLength(255),
-                    ])->columns(2)->columnSpan(1),
+                        Forms\Components\FileUpload::make('featured_cover_image')
+                            ->label('صورة الغلاف')
+                            ->required()
+                            ->directory('ProductResource/cover_image'),
+                    ])->columns(2)->columnSpan(function (?product $record)
+                        { 
+                            if($record == null)
+                                    return 'full';
+                                else
+                                    return 2;
+                        }),
+                Forms\Components\Card::make()
+                ->schema([
+                    Forms\Components\Placeholder::make('created_at')
+                        ->label('تم الانشاء')
+                        ->content(fn (?product $record): string => $record ? $record->created_at->diffForHumans() : '-'),
+                    Forms\Components\Placeholder::make('updated_at')
+                        ->label('تم التعديل')
+                        ->content(fn (?product $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
+                ])->columnSpan(1)->hidden(fn (?product $record) => $record == null),
                 Forms\Components\Card::make()
                     ->schema([
                         Forms\Components\Repeater::make('documents')
@@ -93,7 +108,7 @@ class ProductResource extends Resource
                                 Forms\Components\TextInput::make('property')
                                     ->label('الخصائص'),
                             ])->columns(1)->required(),
-                    ])->columns(2)->columnSpan(1),
+                    ])->columns(2)->columnSpan(2),
                 Forms\Components\Card::make()
                     ->schema([
                         Forms\Components\Toggle::make('visability')
@@ -113,17 +128,8 @@ class ProductResource extends Resource
                             ->inline(false)
                             ->onColor('success')
                             ->offColor('danger'),
-                    ])->columns(2)->columnSpan(1),
-                Forms\Components\Card::make()
-                ->schema([
-                    Forms\Components\Placeholder::make('created_at')
-                        ->label('تم الانشاء')
-                        ->content(fn (?product $record): string => $record ? $record->created_at->diffForHumans() : '-'),
-                    Forms\Components\Placeholder::make('updated_at')
-                        ->label('تم التعديل')
-                        ->content(fn (?product $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
-                ])->columnSpan(1)->hidden(fn (?product $record) => $record == null),
-            ]);
+                    ])->columns(1)->columnSpan(1),
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table
