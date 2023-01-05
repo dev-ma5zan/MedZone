@@ -36,9 +36,9 @@ class CategoryResource extends Resource
                         Forms\Components\FileUpload::make('icon')
                             ->directory('CategoryResource/icon')
                             ->label('الصورة'),
-                        Forms\Components\Select::make('categoryx_id')
+                        Forms\Components\Select::make('category_id')
                             ->label('الفئة الاب')
-                            ->relationship('category','name'),
+                            ->relationship('Category','name'),
                         Forms\Components\Toggle::make('visability')
                             ->label('ظاهرة')
                             ->inline(false)
@@ -74,7 +74,7 @@ class CategoryResource extends Resource
                     ->square(),
                 Tables\Columns\TextColumn::make('slug')
                     ->label('الكود'),
-                Tables\Columns\TextColumn::make('category.name')
+                Tables\Columns\TextColumn::make('Category.name')
                     ->label('الفئة الاب'),
                 Tables\Columns\ToggleColumn::make('visability')
                     ->label('ظاهرة'),

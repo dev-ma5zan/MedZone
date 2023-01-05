@@ -66,9 +66,9 @@ class ReviewResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('Customer.name')
+                Tables\Columns\TextColumn::make('Customer.business_name')
                     ->label('الزبون'),
-                Tables\Columns\TextColumn::make('Product.name')
+                Tables\Columns\TextColumn::make('Product.code')
                     ->label('المنتج'),
                 Tables\Columns\TextColumn::make('rating')
                     ->label('التقييم'),
