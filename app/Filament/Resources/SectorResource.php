@@ -39,7 +39,7 @@ class SectorResource extends Resource
                     ->maxLength(255),
                 Forms\Components\Select::make('area_id')
                     ->label('المنطقة')
-                    ->relationship('area','name')
+                    ->relationship('Area','name')
                     ->required(),
             ]);
     }
@@ -50,7 +50,7 @@ class SectorResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('الاسم'),
-                Tables\Columns\TextColumn::make('area.name')
+                Tables\Columns\TextColumn::make('Area.name')
                     ->label('المنطقة'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('تم الانشاء')

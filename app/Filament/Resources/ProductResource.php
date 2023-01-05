@@ -38,7 +38,7 @@ class ProductResource extends Resource
                         Forms\Components\Select::make('category_id')
                             ->required()
                             ->label('لفئة')
-                            ->relationship('category','name'),
+                            ->relationship('Category','name'),
                         Forms\Components\TextInput::make('tags')
                             ->required()
                             ->label('العلامات')
@@ -53,7 +53,7 @@ class ProductResource extends Resource
                             ->label('الوصف')
                             ->maxLength(255),
                         Forms\Components\Select::make('vendor_id')
-                            ->relationship('vendor', 'business_name')
+                            ->relationship('Vendor', 'business_name')
                             ->required()
                             ->label('المورد'),
                         Forms\Components\FileUpload::make('featured_cover_image')
@@ -143,7 +143,7 @@ class ProductResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
                     ->label('الوصف'),
-                Tables\Columns\TextColumn::make('category.name')
+                Tables\Columns\TextColumn::make('Category.name')
                     ->label('الفئة'),
                 Tables\Columns\TextColumn::make('tags')
                     ->sortable()
@@ -160,7 +160,7 @@ class ProductResource extends Resource
                     ->searchable()
                     ->label('متميز')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('vendor.name')
+                Tables\Columns\TextColumn::make('Vendor.name')
                     ->searchable()
                     ->label('المورد')
                     ->sortable(),

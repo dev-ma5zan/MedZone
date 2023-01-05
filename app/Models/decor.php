@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class decor extends Model
+class Decor extends Model
 {
     use HasFactory;
 
@@ -17,7 +17,7 @@ class decor extends Model
         'weight',
     ];
 
-    public function customer()
+    public function Customer()
     {
         return $this->hasMany(customer::class);
     }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class activities extends Model
+class Activities extends Model
 {
     use HasFactory;
 
@@ -16,8 +16,8 @@ class activities extends Model
         'name',
     ];
 
-    public function customer()
+    public function Customer()
     {
-        return $this->hasMany(customer::class);
+        return $this->hasMany(Customer::class);
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class power extends Model
+class Power extends Model
 {
     use HasFactory;
 
@@ -17,8 +17,8 @@ class power extends Model
         'weight',
     ];
 
-    public function customer()
+    public function Customer()
     {
-        return $this->hasMany(customer::class);
+        return $this->hasMany(Customer::class);
     }
 }

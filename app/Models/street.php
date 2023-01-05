@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class street extends Model
+class Street extends Model
 {
     use HasFactory;
 
@@ -23,8 +23,8 @@ class street extends Model
         return $this->belongsTo(SubAddress::class);
     }
 
-    public function customer()
+    public function Customer()
     {
-        return $this->hasMany(customer::class);
+        return $this->hasMany(Customer::class);
     }
 }

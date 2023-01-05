@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class category extends Model
+class Category extends Model
 {
     use HasFactory;
 
@@ -20,13 +20,13 @@ class category extends Model
         'visability',
     ];
 
-    public function category()
+    public function Category()
     {
-        return $this->belongsTo(category::class);
+        return $this->belongsTo(Category::class);
     }
 
-    public function product()
+    public function Product()
     {
-        return $this->hasMany(product::class);
+        return $this->hasMany(Product::class);
     }
 }

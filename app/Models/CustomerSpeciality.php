@@ -17,7 +17,7 @@ class CustomerSpeciality extends Model
         'weight',
     ];
 
-    public function customer()
+    public function Customer()
     {
         return $this->hasMany(customer::class);
     }

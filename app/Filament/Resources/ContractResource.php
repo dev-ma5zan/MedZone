@@ -37,7 +37,7 @@ class ContractResource extends Resource
                             ->maxLength(255),
                         Forms\Components\Select::make('vendor_id')
                             ->label('المورد')
-                            ->relationship('vendor','business_name'),
+                            ->relationship('Vendor','business_name'),
                         Forms\Components\Repeater::make('documents')
                             ->schema([
                                 Forms\Components\FileUpload::make('document')

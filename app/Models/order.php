@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class order extends Model
+class Order extends Model
 {
     use HasFactory;
 
@@ -25,19 +25,19 @@ class order extends Model
         'products' => 'json',
     ];
 
-    public function customer()
+    public function Customer()
     {
-        return $this->belongsTo(customer::class);
+        return $this->belongsTo(Customer::class);
     }
 
-    public function user()
+    public function User()
     {
-        return $this->belongsTo(user::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function product()
+    public function Product()
     {
-      return $this->belongsTo(product::Class);
+      return $this->belongsTo(Product::Class);
     }
 
 }

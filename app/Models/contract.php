@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class contract extends Model
+class Contract extends Model
 {
     use HasFactory;
 
@@ -22,8 +22,8 @@ class contract extends Model
         'documents' => 'json',
     ];
 
-    public function vendor()
+    public function Vendor()
     {
-        return $this->belongsTo(vendor::class);
+        return $this->belongsTo(Vendor::class);
     }
 }

@@ -39,7 +39,7 @@ class SubAddressResource extends Resource
                     ->maxLength(255),
                 Forms\Components\Select::make('sector_id')
                     ->label('اسم المنطقة')
-                    ->relationship('sector','name')
+                    ->relationship('Sector','name')
                     ->required(),
             ]);
     }
@@ -50,7 +50,7 @@ class SubAddressResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('الاسم'),
-                Tables\Columns\TextColumn::make('sector.name')
+                Tables\Columns\TextColumn::make('Sector.name')
                     ->label('اسم المنطقة'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('تم الانشاء')

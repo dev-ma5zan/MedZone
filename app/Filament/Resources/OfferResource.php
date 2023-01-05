@@ -41,11 +41,6 @@ class OfferResource extends Resource
                 Forms\Components\DatePicker::make('ends_at')
                     ->required()
                     ->label('ينتهي في'),
-                Forms\Components\MultiSelect::make('customer_id')
-                    ->required()
-                    ->preload()
-                    ->relationship('customer','business_name')
-                    ->label('الزبون'),
                 Forms\Components\TextInput::make('minimal_overall_price')
                     ->required()
                     ->label('اقل سعر اجمالي')
@@ -58,6 +53,11 @@ class OfferResource extends Resource
                     ->required()
                     ->label('السعر الجديد')
                     ->maxLength(255),
+                Forms\Components\MultiSelect::make('customer_id')
+                    ->required()
+                    ->preload()
+                    ->relationship('Customer','business_name')
+                    ->label('الزبون'),
                 Forms\Components\Repeater::make('products')
                     ->schema([
                         Forms\Components\Select::make('product')
@@ -93,7 +93,7 @@ class OfferResource extends Resource
                 Tables\Columns\TextColumn::make('ends_at')
                     ->label('ينتهي في')
                     ->date(),
-                Tables\Columns\TextColumn::make('customer.name')
+                Tables\Columns\TextColumn::make('Customer.name')
                     ->label('الزبون'),
                 Tables\Columns\TextColumn::make('minimal_overall_price')
                     ->label('اقل سعر اجمالي'),

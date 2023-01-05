@@ -61,7 +61,7 @@ class CustomerResource extends Resource
                         Forms\Components\Select::make('activity_id')
                             ->label('الفعاليات')
                             ->required()
-                            ->relationship('activities','name'),
+                            ->relationship('Activities','name'),
                         Forms\Components\Select::make('business_hours_id')
                             ->label('ساعات العمل')
                             ->required()
@@ -70,7 +70,7 @@ class CustomerResource extends Resource
                             ->label('المورد المعتاد')
                             ->required()
                             ->preload()
-                            ->relationship('vendor','business_name'),
+                            ->relationship('Vendor','business_name'),
                         Forms\Components\Select::make('preferred_buying_method_id')
                             ->label('طرية الدفع المفضلة')
                             ->required()
@@ -78,7 +78,7 @@ class CustomerResource extends Resource
                         Forms\Components\Select::make('insurance_id')
                             ->label('التامين')
                             ->required()
-                            ->relationship('insurance','name'),
+                            ->relationship('Insurance','name'),
                         Forms\Components\Textarea::make('behavior')
                             ->label('التعامل')
                             ->required()
@@ -131,19 +131,19 @@ class CustomerResource extends Resource
                         Forms\Components\Select::make('staff_id')
                             ->label('عدد الموظفين')
                             ->required()
-                            ->relationship('staff','name'),
+                            ->relationship('Staff','name'),
                         Forms\Components\Select::make('size_id')
                             ->label('المساحة')
                             ->required()
-                            ->relationship('size','name'),
+                            ->relationship('Size','name'),
                         Forms\Components\Select::make('decor_id')
                             ->label('الديكور')
                             ->required()
-                            ->relationship('decor','name'),
+                            ->relationship('Decor','name'),
                         Forms\Components\Select::make('power_id')
                             ->label('الطاقة')
                             ->required()
-                            ->relationship('power','name'),
+                            ->relationship('Power','name'),
                     ])->columns(3)->columnSpan('full'),
                     Forms\Components\Card::make()
                     ->schema([
@@ -152,7 +152,7 @@ class CustomerResource extends Resource
                             ->reactive()
                             ->afterStateUpdated(fn (callable $set) => $set('sector_id', null))
                             ->required()
-                            ->relationship('area','name'),
+                            ->relationship('Area','name'),
                         Forms\Components\Select::make('sector_id')
                             ->label('القطاع')
                             ->required()

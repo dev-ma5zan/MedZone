@@ -30,10 +30,10 @@ class ReviewResource extends Resource
                 Forms\Components\Card::make()
                     ->schema([
                         Forms\Components\Select::make('customer_id')
-                            ->relationship('customer','full_name')
+                            ->relationship('Customer','full_name')
                             ->label('الزبون'),
                         Forms\Components\Select::make('product_id')
-                            ->relationship('product','code')
+                            ->relationship('Product','code')
                             ->label('المنتج'),
                         Forms\Components\Textarea::make('notes')
                             ->required()
@@ -66,9 +66,9 @@ class ReviewResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('customer.name')
+                Tables\Columns\TextColumn::make('Customer.name')
                     ->label('الزبون'),
-                Tables\Columns\TextColumn::make('product.name')
+                Tables\Columns\TextColumn::make('Product.name')
                     ->label('المنتج'),
                 Tables\Columns\TextColumn::make('rating')
                     ->label('التقييم'),

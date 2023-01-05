@@ -18,18 +18,18 @@ class SubAddress extends Model
         'weight',
     ];
 
-    public function sector()
+    public function Sector()
     {
-        return $this->belongsTo(sector::class);
+        return $this->belongsTo(Sector::class);
     }
 
-    public function customer()
+    public function Customer()
     {
-        return $this->hasMany(customer::class);
+        return $this->hasMany(Customer::class);
     }
 
-    public function street()
+    public function Street()
     {
-        return $this->hasMany(street::class);
+        return $this->hasMany(Street::class);
     }
 }

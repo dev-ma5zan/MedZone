@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class sector extends Model
+class Sector extends Model
 {
     use HasFactory;
 
@@ -18,14 +18,14 @@ class sector extends Model
         'weight',
     ];
 
-    public function area()
+    public function Area()
     {
-        return $this->belongsTo(area::class);
+        return $this->belongsTo(Area::class);
     }
 
-    public function customer()
+    public function Customer()
     {
-        return $this->hasMany(customer::class);
+        return $this->hasMany(Customer::class);
     }
 
     public function SubAddress()

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class product extends Model
+class Product extends Model
 {
     use HasFactory;
 
@@ -43,29 +43,29 @@ class product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function vendor()
+    public function Vendor()
     {
-        return $this->belongsTo(vendor::class);
+        return $this->belongsTo(Vendor::class);
     }
 
-    public function review()
+    public function Review()
     {
-        return $this->hasMany(review::class);
+        return $this->hasMany(Review::class);
     }
 
-    public function contract()
+    public function Contract()
     {
-        return $this->belongsTo(contract::class);
+        return $this->belongsTo(Contract::class);
     }
 
-    public function offer()
+    public function Offer()
     {
-        return $this->hasMany(offer::class);
+        return $this->hasMany(Offer::class);
     }
 
-    public function order() 
+    public function Order() 
     {
-      return $this->hasMany(order::Class);
+      return $this->hasMany(Order::Class);
     }
 
 }

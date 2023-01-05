@@ -17,8 +17,8 @@ class LocationType extends Model
         'weight',
     ];
 
-    public function customer()
+    public function Customer()
     {
-        return $this->hasMany(customer::class);
+        return $this->hasMany(Customer::class);
     }
 }

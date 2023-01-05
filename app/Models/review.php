@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class review extends Model
+class Review extends Model
 {
     use HasFactory;
 
@@ -19,13 +19,13 @@ class review extends Model
         'rating',
     ];
 
-    public function customer()
+    public function Customer()
     {
-        return $this->belongsTo(customer::class);
+        return $this->belongsTo(Customer::class);
     }
 
-    public function product()
+    public function Product()
     {
-        return $this->belongsTo(product::class);
+        return $this->belongsTo(Product::class);
     }
 }

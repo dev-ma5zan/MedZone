@@ -48,7 +48,7 @@ class OrderResource extends Resource
                             ->required(),
                         Forms\Components\Select::make('customer_id')
                             ->label('الزبون')
-                            ->relationship('customer', 'business_name')
+                            ->relationship('Customer', 'business_name')
                             ->required(),
                         Forms\Components\Select::make('user_id')
                             ->label('الموظف المسؤول')
@@ -56,7 +56,7 @@ class OrderResource extends Resource
                         Forms\Components\Repeater::make('products')
                             ->schema([
                                 Forms\Components\Select::make('product')
-                                    ->relationship('product', 'code')
+                                    ->relationship('Product', 'code')
                                     ->preload()
                                     ->required()
                                     ->reactive()
@@ -111,11 +111,11 @@ class OrderResource extends Resource
                     ->label('الكود'),
                 Tables\Columns\TextColumn::make('status')
                     ->label('الحالة'),
-                Tables\Columns\TextColumn::make('customer.business_name')
+                Tables\Columns\TextColumn::make('Customer.business_name')
                     ->label('اسم الزبون'),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('اسم الموظف المسؤول'),
-                Tables\Columns\TextColumn::make('product.code')
+                Tables\Columns\TextColumn::make('Product.code')
                     ->label('المنتج'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('تم الانشاء')

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class customer extends Model
+class Customer extends Model
 {
     use Notifiable;
 
@@ -53,19 +53,19 @@ class customer extends Model
         'vendor_id' => 'array',
     ];
 
-    public function order()
+    public function Order()
     {
         return $this->hasMany(order::class);
     }
 
-    public function offer()
+    public function Offer()
     {
-        return $this->belongsTo(offer::class);
+        return $this->belongsTo(Offer::class);
     }
 
-    public function review()
+    public function Review()
     {
-        return $this->hasMany(review::class);
+        return $this->hasMany(Review::class);
     }
 
     public function CustomerSpeciality()
@@ -73,19 +73,19 @@ class customer extends Model
         return $this->belongsTo(CustomerSpeciality::class);
     }
 
-    public function activities()
+    public function Activities()
     {
-        return $this->belongsTo(activities::class);
+        return $this->belongsTo(Activities::class);
     }
 
-    public function area()
+    public function Area()
     {
-        return $this->belongsTo(area::class);
+        return $this->belongsTo(Area::class);
     }
 
-    public function sector()
+    public function Sector()
     {
-        return $this->belongsTo(sector::class);
+        return $this->belongsTo(Sector::class);
     }
 
     public function SubAddress()
@@ -93,9 +93,9 @@ class customer extends Model
         return $this->belongsTo(SubAddress::class);
     }
 
-    public function street()
+    public function Street()
     {
-        return $this->belongsTo(street::class);
+        return $this->belongsTo(Street::class);
     }
 
     public function BusinessHours()
@@ -103,9 +103,9 @@ class customer extends Model
         return $this->belongsTo(BusinessHours::class);
     }
 
-    public function vendor()
+    public function Vendor()
     {
-        return $this->belongsToMany(vendor::class);
+        return $this->belongsToMany(Vendor::class);
     }
 
     public function PreferredBuyingMethod()
@@ -113,9 +113,9 @@ class customer extends Model
         return $this->belongsTo(PreferredBuyingMethod::class);
     }
 
-    public function insurance()
+    public function Insurance()
     {
-        return $this->belongsTo(insurance::class);
+        return $this->belongsTo(Insurance::class);
     }
 
     public function LocationType()
@@ -123,23 +123,23 @@ class customer extends Model
         return $this->belongsTo(LocationType::class);
     }
 
-    public function staff()
+    public function Staff()
     {
-        return $this->belongsTo(staff::class);
+        return $this->belongsTo(Staff::class);
     }
 
-    public function size()
+    public function Size()
     {
-        return $this->belongsTo(size::class);
+        return $this->belongsTo(Size::class);
     }
 
-    public function decor()
+    public function Decor()
     {
-        return $this->belongsTo(decor::class);
+        return $this->belongsTo(Decor::class);
     }
 
-    public function power()
+    public function Power()
     {
-        return $this->belongsTo(power::class);
+        return $this->belongsTo(Power::class);
     }
 }
